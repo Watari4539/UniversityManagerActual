@@ -55,7 +55,7 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
     func scheduleExamNotification(for exam: Exam) {
         guard authorized else { return }
         cancelNotification(for: exam)
-        guard let hoursBefore = exam.notificationHoursBefore else { return }
+        guard let hoursBefore = exam.notificationHoursBefore, !exam.isCompleted else { return }
         
         let notificationDate = exam.date.addingTimeInterval(TimeInterval(-hoursBefore * 3600))
         guard notificationDate > Date() else { return }

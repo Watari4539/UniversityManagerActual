@@ -36,7 +36,7 @@ struct ClassDetailView: View {
     }
     
     var upcomingExams: [Exam] {
-        exams.filter { $0.date > Date() }
+        exams.filter { !$0.isCompleted && $0.date > Date() }
     }
     
     var body: some View {
@@ -248,7 +248,7 @@ private struct ExamsSectionView: View {
                 .fontWeight(.semibold)
             
             let upcomingExams = examStore.examsForClass(classItem.id)
-                .filter { $0.date > Date() }
+                .filter { !$0.isCompleted && $0.date > Date() }
                 .sorted { $0.date < $1.date }
             
             if upcomingExams.isEmpty {

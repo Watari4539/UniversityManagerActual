@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ExamsView: View {
     @EnvironmentObject var examStore: ExamStore
     @EnvironmentObject var classStore: ClassStore
     @State private var showingExamDetail: Exam?
+    @State private var showingEditExam: Exam?
     
     var body: some View {
         NavigationView {
@@ -26,7 +28,7 @@ struct ExamsView: View {
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                             
-                            Text("\(examStore.upcomingExams().count) exámenes programados")
+                            Text("\(examStore.upcomingExams().count) exámenes pendientes")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         }
@@ -48,6 +50,40 @@ struct ExamsView: View {
                                         .onTapGesture {
                                             showingExamDetail = exam
                                         }
+                                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                            Button {
+                                                hapticSuccess()
+                                                withAnimation(.spring()) {
+                                                    examStore.markAsCompleted(exam)
+                                                }
+                                            } label: {
+                                                Label("Completar", systemImage: "checkmark.circle.fill")
+                                            }
+                                            .tint(.green)
+
+                                            Button(role: .destructive) {
+                                                withAnimation {
+                                                    examStore.deleteExam(exam)
+                                                }
+                                            } label: {
+                                                Label("Eliminar", systemImage: "trash.fill")
+                                            }
+                                        }
+                                        .swipeActions(edge: .leading) {
+                                            Button {
+                                                showingExamDetail = exam
+                                            } label: {
+                                                Label("Detalles", systemImage: "info.circle")
+                                            }
+                                            .tint(.blue)
+
+                                            Button {
+                                                showingEditExam = exam
+                                            } label: {
+                                                Label("Editar", systemImage: "pencil")
+                                            }
+                                            .tint(.orange)
+                                        }
                                         .padding(.horizontal)
                                 }
                             }
@@ -60,7 +96,14 @@ struct ExamsView: View {
             .sheet(item: $showingExamDetail) { exam in
                 ExamDetailView(exam: exam)
             }
+            .sheet(item: $showingEditExam) { exam in
+                ExamFormView(classId: exam.classId, editingExam: exam)
+            }
         }
     }
-}
 
+    private func hapticSuccess() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
+    }
+}

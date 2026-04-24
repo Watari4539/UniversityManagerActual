@@ -162,7 +162,9 @@ struct ExamFormView: View {
                 date: date,
                 room: room.isEmpty ? nil : room,
                 priority: priority,
-                notificationHoursBefore: notificationHours
+                notificationHoursBefore: notificationHours,
+                isCompleted: editingExam.isCompleted,
+                createdAt: editingExam.createdAt
             )
             examStore.updateExam(exam)
         } else {

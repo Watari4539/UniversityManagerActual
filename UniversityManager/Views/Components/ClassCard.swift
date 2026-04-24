@@ -21,7 +21,7 @@ struct ClassCard: View {
     
     var upcomingExams: Int {
         examStore.examsForClass(classItem.id)
-            .filter { $0.date > Date() }
+            .filter { !$0.isCompleted && $0.date > Date() }
             .count
     }
     

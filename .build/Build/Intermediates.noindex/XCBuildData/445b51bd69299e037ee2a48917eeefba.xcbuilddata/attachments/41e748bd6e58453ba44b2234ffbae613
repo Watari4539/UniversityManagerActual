@@ -1,0 +1,388 @@
+{
+  "" : {
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/UniversityManager-master.dia",
+    "emit-module-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/UniversityManager-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/UniversityManager-master-emit-module.dia",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/UniversityManager-master.swiftdeps"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GeneratedAssetSymbols~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Models/Class.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Class.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Class.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Class.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Class.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Class.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Class.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Class.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Class~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Models/Exam.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Exam.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Exam.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Exam.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Exam.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Exam.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Exam.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Exam.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Exam~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Models/Grade.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Grade.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Grade.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Grade.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Grade.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Grade.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Grade.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Grade.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Grade~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Models/Task.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Task.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Task.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Task.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Task.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Task.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Task.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Task.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/Task~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/UniversityManagerApp.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/UniversityManagerApp.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/UniversityManagerApp.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/UniversityManagerApp.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/UniversityManagerApp.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/UniversityManagerApp.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/UniversityManagerApp.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/UniversityManagerApp.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/UniversityManagerApp~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Utilities/ColorExtensions.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ColorExtensions.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ColorExtensions.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ColorExtensions.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ColorExtensions.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ColorExtensions.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ColorExtensions.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ColorExtensions.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ColorExtensions~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Utilities/DataPersistence.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DataPersistence.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DataPersistence.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DataPersistence.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DataPersistence.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DataPersistence.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DataPersistence.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DataPersistence.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DataPersistence~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Utilities/DateExtensions.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DateExtensions.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DateExtensions.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DateExtensions.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DateExtensions.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DateExtensions.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DateExtensions.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DateExtensions.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/DateExtensions~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Utilities/GradeUtils.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeUtils.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeUtils.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeUtils.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeUtils.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeUtils.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeUtils.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeUtils.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeUtils~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Utilities/NotificationManager.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/NotificationManager.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/NotificationManager.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/NotificationManager.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/NotificationManager.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/NotificationManager.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/NotificationManager.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/NotificationManager.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/NotificationManager~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/ViewModels/ClassStore.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassStore.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassStore.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassStore.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassStore.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassStore.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassStore.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassStore.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassStore~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/ViewModels/ExamStore.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamStore.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamStore.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamStore.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamStore.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamStore.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamStore.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamStore.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamStore~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/ViewModels/GradeStore.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeStore.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeStore.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeStore.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeStore.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeStore.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeStore.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeStore.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeStore~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/ViewModels/TaskStore.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskStore.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskStore.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskStore.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskStore.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskStore.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskStore.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskStore.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskStore~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/AllExamsView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllExamsView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllExamsView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllExamsView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllExamsView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllExamsView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllExamsView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllExamsView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllExamsView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/AllTasksView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllTasksView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllTasksView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllTasksView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllTasksView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllTasksView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllTasksView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllTasksView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/AllTasksView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/ClassViews/ClassDetailView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassDetailView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassDetailView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassDetailView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassDetailView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassDetailView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassDetailView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassDetailView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassDetailView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/ClassViews/ClassEditView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassEditView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassEditView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassEditView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassEditView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassEditView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassEditView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassEditView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassEditView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/ClassViews/ClassFormView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassFormView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassFormView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassFormView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassFormView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassFormView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassFormView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassFormView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassFormView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/ClassViews/ExamFormView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamFormView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamFormView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamFormView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamFormView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamFormView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamFormView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamFormView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamFormView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/ClassViews/GradeEditView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeEditView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeEditView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeEditView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeEditView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeEditView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeEditView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeEditView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradeEditView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/ClassViews/GradesSectionView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesSectionView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesSectionView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesSectionView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesSectionView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesSectionView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesSectionView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesSectionView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesSectionView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/ClassViews/ScheduleEditorView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleEditorView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleEditorView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleEditorView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleEditorView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleEditorView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleEditorView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleEditorView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleEditorView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/ClassViews/TaskFormView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskFormView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskFormView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskFormView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskFormView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskFormView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskFormView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskFormView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskFormView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/Components/ActionButton.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ActionButton.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ActionButton.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ActionButton.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ActionButton.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ActionButton.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ActionButton.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ActionButton.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ActionButton~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/Components/ClassCard.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassCard.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassCard.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassCard.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassCard.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassCard.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassCard.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassCard.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassCard~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/Components/ExamCard.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamCard.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamCard.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamCard.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamCard.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamCard.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamCard.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamCard.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamCard~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/Components/InfoRow.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/InfoRow.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/InfoRow.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/InfoRow.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/InfoRow.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/InfoRow.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/InfoRow.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/InfoRow.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/InfoRow~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/Components/TaskCard.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskCard.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskCard.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskCard.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskCard.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskCard.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskCard.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskCard.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskCard~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/CustomTabBar.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/CustomTabBar.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/CustomTabBar.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/CustomTabBar.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/CustomTabBar.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/CustomTabBar.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/CustomTabBar.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/CustomTabBar.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/CustomTabBar~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/MainViews/ClassesView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassesView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassesView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassesView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassesView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassesView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassesView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassesView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ClassesView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/MainViews/ExamsView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamsView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamsView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamsView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamsView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamsView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamsView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamsView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ExamsView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/MainViews/GradesView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/GradesView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/MainViews/ScheduleView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/ScheduleView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/MainViews/SettingsView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/SettingsView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/SettingsView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/SettingsView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/SettingsView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/SettingsView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/SettingsView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/SettingsView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/MainViews/TasksView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TasksView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TasksView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TasksView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TasksView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TasksView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TasksView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TasksView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TasksView~partial.swiftmodule"
+  },
+  "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/UniversityManager/Views/TaskDetailView.swift" : {
+    "const-values" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskDetailView.swiftconstvalues",
+    "dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskDetailView.d",
+    "diagnostics" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskDetailView.dia",
+    "index-unit-output-path" : "/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskDetailView.o",
+    "llvm-bc" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskDetailView.bc",
+    "object" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskDetailView.o",
+    "swift-dependencies" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskDetailView.swiftdeps",
+    "swiftmodule" : "/Users/adriannieto/Desktop/CARPETAS/Swift Apps/UniversityManagerActual/.build/Build/Intermediates.noindex/UniversityManager.build/Debug-iphonesimulator/UniversityManager.build/Objects-normal/x86_64/TaskDetailView~partial.swiftmodule"
+  }
+}

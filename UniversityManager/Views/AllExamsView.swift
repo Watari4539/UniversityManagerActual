@@ -24,11 +24,11 @@ struct AllExamsView: View {
         switch selectedFilter {
         case 0: // Próximos
             return allExams
-                .filter { $0.date > now }
+                .filter { !$0.isCompleted && $0.date > now }
                 .sorted { $0.date < $1.date }
         case 1: // Pasados
             return allExams
-                .filter { $0.date <= now }
+                .filter { $0.isCompleted || $0.date <= now }
                 .sorted { $0.date > $1.date } // Más recientes primero
         case 2: // Todos
             return allExams.sorted { $0.date < $1.date }
@@ -39,13 +39,13 @@ struct AllExamsView: View {
     
     var upcomingCount: Int {
         examStore.examsForClass(classItem.id)
-            .filter { $0.date > Date() }
+            .filter { !$0.isCompleted && $0.date > Date() }
             .count
     }
     
     var pastCount: Int {
         examStore.examsForClass(classItem.id)
-            .filter { $0.date <= Date() }
+            .filter { $0.isCompleted || $0.date <= Date() }
             .count
     }
     
@@ -169,7 +169,7 @@ struct ExtendedExamCard: View {
     @State private var isPressed = false
     
     var isPast: Bool {
-        exam.date <= Date()
+        exam.isFinished
     }
     
     var body: some View {
@@ -393,7 +393,7 @@ struct ExamDetailView: View {
     @State private var showingDeleteAlert = false
     
     var isPast: Bool {
-        exam.date <= Date()
+        exam.isFinished
     }
     
     var body: some View {
@@ -628,24 +628,55 @@ struct ExamDetailView: View {
                     .padding(.horizontal)
                     
                     // Action Buttons
-                    HStack(spacing: 16) {
+                    VStack(spacing: 12) {
+                        if !exam.isFinished {
+                            Button(action: {
+                                examStore.markAsCompleted(exam)
+                                dismiss()
+                            }) {
+                                HStack {
+                                    Spacer()
+                                    Image(systemName: "checkmark.circle.fill")
+                                    Text("Marcar como Completado")
+                                        .fontWeight(.semibold)
+                                    Spacer()
+                                }
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.green)
+                                .cornerRadius(12)
+                            }
+                        }
+
                         Button(action: { showingEdit = true }) {
-                            ActionButton(
-                                icon: "pencil.circle.fill",
-                                label: "Editar",
-                                color: .blue
-                            )
+                            HStack {
+                                Spacer()
+                                Image(systemName: "pencil")
+                                Text("Editar Examen")
+                                    .fontWeight(.semibold)
+                                Spacer()
+                            }
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(12)
                         }
                         
-                        Button(role: .destructive, action: { showingDeleteAlert = true }) {
-                            ActionButton(
-                                icon: "trash.circle.fill",
-                                label: "Eliminar",
-                                color: .red
-                            )
+                        Button(action: { showingDeleteAlert = true }) {
+                            HStack {
+                                Spacer()
+                                Image(systemName: "trash")
+                                Text("Eliminar Examen")
+                                    .fontWeight(.semibold)
+                                Spacer()
+                            }
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.red)
+                            .cornerRadius(12)
                         }
                     }
-                    .padding()
+                    .padding(.horizontal)
                     .padding(.bottom, 30)
                 }
             }

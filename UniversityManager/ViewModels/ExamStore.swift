@@ -35,8 +35,11 @@ class ExamStore: ObservableObject {
         if let index = exams.firstIndex(where: { $0.id == updatedExam.id }) {
             exams[index] = updatedExam
             saveExams()
-            // Reprogramar notificación al actualizar
-            scheduleNotification(for: updatedExam)
+            if updatedExam.isCompleted {
+                cancelNotification(for: updatedExam)
+            } else {
+                scheduleNotification(for: updatedExam)
+            }
         }
     }
     
@@ -44,6 +47,14 @@ class ExamStore: ObservableObject {
         exams.removeAll { $0.id == exam.id }
         saveExams()
         cancelNotification(for: exam)
+    }
+
+    func markAsCompleted(_ exam: Exam) {
+        if let index = exams.firstIndex(where: { $0.id == exam.id }) {
+            exams[index].isCompleted = true
+            saveExams()
+            cancelNotification(for: exams[index])
+        }
     }
     
     func clearAll() {
@@ -58,7 +69,7 @@ class ExamStore: ObservableObject {
     
     func upcomingExams(limit: Int? = nil) -> [Exam] {
         let upcoming = exams
-            .filter { $0.date > Date() }
+            .filter { !$0.isCompleted && $0.date > Date() }
             .sorted { $0.date < $1.date }
         
         if let limit = limit {
@@ -105,4 +116,3 @@ class ExamStore: ObservableObject {
         exams = decoded
     }
 }
-
