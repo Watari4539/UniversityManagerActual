@@ -5,9 +5,13 @@ import SwiftUI
 // 1. PRIMERO define ContentView FUERA del struct App
 struct ContentView: View {
     @State private var selectedTab = 2
+    @State private var classesResetToken = UUID()
     
     var body: some View {
-        CustomTabBar(selectedTab: $selectedTab)
+        CustomTabBar(
+            selectedTab: $selectedTab,
+            classesResetToken: $classesResetToken
+        )
             .accentColor(.blue)
     }
 }

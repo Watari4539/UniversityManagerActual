@@ -12,11 +12,13 @@ struct ClassDetailView: View {
     @EnvironmentObject var classStore: ClassStore
     @EnvironmentObject var taskStore: TaskStore
     @EnvironmentObject var examStore: ExamStore
+    @EnvironmentObject var gradeStore: GradeStore
     @Environment(\.dismiss) var dismiss
     @State private var showingEditClass = false
     @State private var showingNewTask = false
     @State private var showingNewExam = false
     @State private var showingGrades = false
+    @State private var showingDeleteAlert = false
     @State private var selectedTab = 0
     
     var tasks: [TaskItem] {
@@ -152,7 +154,7 @@ struct ClassDetailView: View {
                     Divider()
                     
                     Button(role: .destructive) {
-                        deleteClass()
+                        showingDeleteAlert = true
                     } label: {
                         Label("Eliminar Clase", systemImage: "trash")
                     }
@@ -173,12 +175,26 @@ struct ClassDetailView: View {
         .sheet(isPresented: $showingGrades) {
             GradeEditView(classItem: classItem)  // CORREGIDO: con parámetro
         }
+        .alert("¿Eliminar esta clase?", isPresented: $showingDeleteAlert) {
+            Button("Cancelar", role: .cancel) { }
+            Button("Eliminar", role: .destructive) {
+                deleteClass()
+            }
+        } message: {
+            Text("Se eliminarán la clase, sus tareas, exámenes y calificaciones asociadas. Esta acción no se puede deshacer.")
+        }
+        .onReceive(classStore.$classes) { classes in
+            if !classes.contains(where: { $0.id == classItem.id }) {
+                dismiss()
+            }
+        }
     }
     
     private func deleteClass() {
         classStore.deleteClass(classItem)
-        taskStore.tasks.removeAll { $0.classId == classItem.id }
-        examStore.exams.removeAll { $0.classId == classItem.id }
+        taskStore.deleteTasksForClass(classItem.id)
+        examStore.deleteExamsForClass(classItem.id)
+        gradeStore.deleteGradesForClass(classItem.id)
         dismiss()
     }
 }
@@ -205,32 +221,17 @@ private struct TasksSectionView: View {
                     icon: "checkmark.circle",
                     message: "No hay tareas pendientes"
                 )
-                NavigationLink {
+                SectionLinkButton(title: "Ver todas", systemImage: "checklist") {
                     AllTasksView(classItem: classItem)
-                } label: {
-                    HStack {
-                        Text("Ver todas (\(pendingTasks.count))")
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                    }
-                    .foregroundColor(.blue)
                 }
             } else {
                 ForEach(pendingTasks.prefix(3)) { task in
                     CompactTaskCard(task: task)
                 }
                 
-                
-                    NavigationLink {
-                        AllTasksView(classItem: classItem)
-                    } label: {
-                        HStack {
-                            Text("Ver todas (\(pendingTasks.count))")
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                        }
-                        .foregroundColor(.blue)
-                    }
+                SectionLinkButton(title: "Ver todas", systemImage: "checklist") {
+                    AllTasksView(classItem: classItem)
+                }
                 
             }
         }
@@ -256,31 +257,17 @@ private struct ExamsSectionView: View {
                     icon: "doc.text",
                     message: "No hay exámenes próximos"
                 )
-                NavigationLink {
+                SectionLinkButton(title: "Ver todos", systemImage: "doc.text") {
                     AllExamsView(classItem: classItem)
-                } label: {
-                    HStack {
-                        Text("Ver todos (\(upcomingExams.count))")
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                    }
-                    .foregroundColor(.blue)
                 }
 
             } else {
                 ForEach(upcomingExams.prefix(3)) { exam in
                     CompactExamCard(exam: exam)
                 }
-                    NavigationLink {
-                        AllExamsView(classItem: classItem)
-                    } label: {
-                        HStack {
-                            Text("Ver todos (\(upcomingExams.count))")
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                        }
-                        .foregroundColor(.blue)
-                    }
+                SectionLinkButton(title: "Ver todos", systemImage: "doc.text") {
+                    AllExamsView(classItem: classItem)
+                }
                 
             }
         }
@@ -376,6 +363,52 @@ private struct EmptySectionView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 40)
+    }
+}
+
+private struct SectionLinkButton<Destination: View>: View {
+    let title: String
+    let systemImage: String
+    let destination: Destination
+    
+    init(title: String, systemImage: String, @ViewBuilder destination: () -> Destination) {
+        self.title = title
+        self.systemImage = systemImage
+        self.destination = destination()
+    }
+    
+    var body: some View {
+        NavigationLink {
+            destination
+        } label: {
+            HStack(spacing: 12) {
+                Label(title, systemImage: systemImage)
+                    .font(.subheadline.weight(.semibold))
+                
+                Spacer()
+                
+                Image(systemName: "arrow.right")
+                    .font(.caption.weight(.bold))
+                    .foregroundColor(.blue)
+                    .padding(8)
+                    .background(
+                        Circle()
+                            .fill(Color.blue.opacity(0.14))
+                    )
+            }
+            .foregroundColor(.blue)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+            .background(
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(Color.blue.opacity(0.08))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(Color.blue.opacity(0.12), lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
     }
 }
 

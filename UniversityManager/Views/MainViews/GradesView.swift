@@ -3,11 +3,10 @@ import SwiftUI
 struct GradesView: View {
     @EnvironmentObject var classStore: ClassStore
     @EnvironmentObject var gradeStore: GradeStore
-    @State private var selectedSemester = 1
     @State private var showingSemesterMenu = false
     
     var filteredClasses: [UniversityClass] {
-        classStore.classes.filter { $0.semester == selectedSemester }
+        classStore.classes.filter { $0.semester == classStore.currentSemester }
             .sorted { $0.name < $1.name }
     }
     
@@ -28,7 +27,7 @@ struct GradesView: View {
             VStack(spacing: 0) {
                 // Header
                 VStack(spacing: 16) {
-                    Text("Semestre \(String(selectedSemester))")
+                    Text("Semestre \(String(classStore.currentSemester))")
                         .font(.title)
                         .fontWeight(.bold)
                     
@@ -67,24 +66,6 @@ struct GradesView: View {
                     
                     Spacer()
                     
-                    // BOTÓN DE REFRESCAR - AÑADE ESTO:
-                        Button(action: {
-                            // Forzar actualización de la vista
-                            // Al cambiar temporalmente el semestre y volver
-                            let tempSemester = selectedSemester
-                            selectedSemester = tempSemester == 1 ? 2 : 1
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                selectedSemester = tempSemester
-                            }
-                        }) {
-                            Image(systemName: "arrow.clockwise")
-                                .font(.body)
-                                .foregroundColor(.blue)
-                                .padding(8)
-                                .background(Color.blue.opacity(0.1))
-                                .cornerRadius(8)
-                        }
-                    
                     Text("\(filteredClasses.count) materias")
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -98,7 +79,7 @@ struct GradesView: View {
                             .font(.system(size: 60))
                             .foregroundColor(.gray.opacity(0.4))
                         
-                        Text("Sin materias en Semestre \(selectedSemester)")
+                        Text("Sin materias en Semestre \(classStore.currentSemester)")
                             .font(.title3)
                             .fontWeight(.medium)
                     }
@@ -115,7 +96,7 @@ struct GradesView: View {
             .navigationTitle("Calificaciones")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showingSemesterMenu) {
-                SemesterPickerView(selectedSemester: $selectedSemester)
+                SemesterPickerView(selectedSemester: $classStore.currentSemester)
             }
             .onReceive(gradeStore.$grades) { _ in
                         // Esto fuerza a que la vista se actualice cuando cambien las calificaciones

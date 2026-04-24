@@ -20,7 +20,7 @@ struct ScheduleEditorView: View {
         NavigationView {
             Form {
                 Section(header: Text("Días de la Semana")) {
-                    ForEach(Weekday.allCases.prefix(5), id: \.self) { weekday in
+                    ForEach(Weekday.scheduleDays, id: \.self) { weekday in
                         HStack {
                             Text(weekday.name)
                             Spacer()
@@ -42,7 +42,7 @@ struct ScheduleEditorView: View {
                     Toggle("Aplicar a todos los días seleccionados", isOn: $applyToAll)
                         .onChange(of: applyToAll) { newValue in
                             if newValue {
-                                selectedWeekdays = Set(Weekday.allCases.prefix(5))
+                                selectedWeekdays = Set(Weekday.scheduleDays)
                             }
                         }
                 }

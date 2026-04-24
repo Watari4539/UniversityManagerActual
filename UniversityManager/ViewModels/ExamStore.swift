@@ -49,6 +49,13 @@ class ExamStore: ObservableObject {
         cancelNotification(for: exam)
     }
 
+    func deleteExamsForClass(_ classId: UUID) {
+        let classExams = exams.filter { $0.classId == classId }
+        classExams.forEach { cancelNotification(for: $0) }
+        exams.removeAll { $0.classId == classId }
+        saveExams()
+    }
+
     func markAsCompleted(_ exam: Exam) {
         if let index = exams.firstIndex(where: { $0.id == exam.id }) {
             exams[index].isCompleted = true

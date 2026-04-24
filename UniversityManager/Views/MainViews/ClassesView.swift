@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ClassesView: View {
+    let resetToken: UUID
     @EnvironmentObject var classStore: ClassStore
     
     @State private var showingNewClass = false
@@ -106,9 +107,9 @@ struct ClassesView: View {
                 SemesterPickerSheet(selectedSemester: $classStore.currentSemester)
             }
         }
+        .id(resetToken)
     }
 }
-import SwiftUI
 
 struct SemesterPickerSheet: View {
     @Binding var selectedSemester: Int

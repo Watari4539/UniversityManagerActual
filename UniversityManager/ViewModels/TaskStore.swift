@@ -52,6 +52,13 @@ class TaskStore: ObservableObject {
         saveTasks()
         cancelNotification(for: task)
     }
+
+    func deleteTasksForClass(_ classId: UUID) {
+        let classTasks = tasks.filter { $0.classId == classId }
+        classTasks.forEach { cancelNotification(for: $0) }
+        tasks.removeAll { $0.classId == classId }
+        saveTasks()
+    }
     
     func markAsCompleted(_ task: TaskItem) {
         if let index = tasks.firstIndex(where: { $0.id == task.id }) {

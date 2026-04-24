@@ -10,6 +10,9 @@ import SwiftUI
 struct ClassEditView: View {
     let classItem: UniversityClass
     @EnvironmentObject var classStore: ClassStore
+    @EnvironmentObject var taskStore: TaskStore
+    @EnvironmentObject var examStore: ExamStore
+    @EnvironmentObject var gradeStore: GradeStore
     @Environment(\.dismiss) var dismiss
     
     @State private var className: String
@@ -211,8 +214,10 @@ struct ClassEditView: View {
     
     private func deleteClass() {
         classStore.deleteClass(classItem)
+        taskStore.deleteTasksForClass(classItem.id)
+        examStore.deleteExamsForClass(classItem.id)
+        gradeStore.deleteGradesForClass(classItem.id)
         dismiss()
     }
 }
-
 

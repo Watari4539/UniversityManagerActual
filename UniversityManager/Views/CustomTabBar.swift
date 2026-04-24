@@ -9,36 +9,37 @@ import SwiftUI
 
 struct CustomTabBar: View {
     @Binding var selectedTab: Int
+    @Binding var classesResetToken: UUID
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            // Main Content
-            TabView(selection: $selectedTab) {
-                TasksView()
-                    .tag(0)
-                
-                ExamsView()
-                    .tag(1)
-                
-                ClassesView()
-                    .tag(2)
-                
-                ScheduleView()
-                    .tag(3)
-                
-                GradesView()
-                    .tag(4)
-                
-                SettingsView()
-                    .tag(5)
+            Group {
+                switch selectedTab {
+                case 0:
+                    TasksView()
+                case 1:
+                    ExamsView()
+                case 2:
+                    ClassesView(resetToken: classesResetToken)
+                case 3:
+                    ScheduleView()
+                case 4:
+                    GradesView()
+                case 5:
+                    SettingsView()
+                default:
+                    ClassesView(resetToken: classesResetToken)
+                }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             
             // Custom Tab Bar
             HStack(spacing: 0) {
                 ForEach(0..<6) { index in
                     TabBarButton(
                         index: index,
-                        selectedTab: $selectedTab
+                        selectedTab: $selectedTab,
+                        classesResetToken: $classesResetToken
                     )
                 }
             }
@@ -61,6 +62,7 @@ struct CustomTabBar: View {
 struct TabBarButton: View {
     let index: Int
     @Binding var selectedTab: Int
+    @Binding var classesResetToken: UUID
     
     private var iconName: String {
         switch index {
@@ -89,7 +91,11 @@ struct TabBarButton: View {
     var body: some View {
         Button(action: {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                selectedTab = index
+                if selectedTab == index, index == 2 {
+                    classesResetToken = UUID()
+                } else {
+                    selectedTab = index
+                }
             }
         }) {
             VStack(spacing: 6) {

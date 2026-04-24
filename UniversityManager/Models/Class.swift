@@ -102,4 +102,8 @@ enum Weekday: Int, Codable, CaseIterable {
         case .sunday: return "D"
         }
     }
+
+    static var scheduleDays: [Weekday] {
+        allCases.filter { $0 != .sunday }
+    }
 }

@@ -28,7 +28,7 @@ struct ScheduleView: View {
                 // Selector de día
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 15) {
-                        ForEach(Weekday.allCases, id: \.self) { day in
+                        ForEach(Weekday.scheduleDays, id: \.self) { day in
                             Button(action: { selectedDay = day }) {
                                 Text(day.name.prefix(3))
                                     .fontWeight(selectedDay == day ? .bold : .regular)
