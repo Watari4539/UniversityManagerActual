@@ -45,7 +45,7 @@ extension Color {
     }
 }
 
-// comentario de prueba
+// comentario de prueba 2
 
 extension UIColor {
     convenience init(hex: String) {
