@@ -97,7 +97,7 @@ struct ClassesView: View {
                         .padding()
                     }
                     .safeAreaInset(edge: .bottom) {
-                        Color.clear.frame(height: 50)
+                        Color.clear.frame(height: 70)
                     }
                 }
             }

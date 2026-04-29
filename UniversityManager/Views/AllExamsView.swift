@@ -124,6 +124,9 @@ struct AllExamsView: View {
                             }
                             .padding(.vertical)
                         }
+                        .safeAreaInset(edge: .bottom) {
+                            Color.clear.frame(height: 70)
+                        }
                     }
                 }
             }

@@ -140,6 +140,11 @@ struct ClassDetailView: View {
                 .padding(.bottom, 30)
             }
         }
+        
+        .safeAreaInset(edge: .bottom) {
+            Color.clear.frame(height: 70)
+        }
+        
         .background(Color(.systemGroupedBackground))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

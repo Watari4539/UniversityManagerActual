@@ -125,6 +125,9 @@ struct GradesTableView: View {
             }
             .padding()
         }
+        .safeAreaInset(edge: .bottom) {
+            Color.clear.frame(height: 70)
+        }
     }
 }
 
