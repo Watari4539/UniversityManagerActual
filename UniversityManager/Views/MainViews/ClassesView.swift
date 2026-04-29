@@ -96,6 +96,9 @@ struct ClassesView: View {
                         }
                         .padding()
                     }
+                    .safeAreaInset(edge: .bottom) {
+                        Color.clear.frame(height: 50)
+                    }
                 }
             }
             .navigationBarHidden(true)
