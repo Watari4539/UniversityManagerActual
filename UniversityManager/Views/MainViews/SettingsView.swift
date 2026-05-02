@@ -18,13 +18,6 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Apariencia")) {
-                    Picker("Tema", selection: $appTheme) {
-                        Text("Claro").tag("light")
-                        Text("Oscuro").tag("dark")
-                        Text("Automático").tag("auto")
-                    }
-                }
                 
                 Section(header: Text("Notificaciones")) {
                     Toggle("Activar notificaciones", isOn: $notificationsEnabled)

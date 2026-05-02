@@ -18,7 +18,6 @@ class DataPersistence {
         encoder.outputFormatting = .prettyPrinted
     }
     
-    // MARK: - Generic Save/Load
     
     func save<T: Encodable>(_ object: T, forKey key: String) {
         do {
@@ -39,9 +38,7 @@ class DataPersistence {
             return nil
         }
     }
-    
-    // MARK: - Specific Data Methods
-    
+        
     func exportAllData() -> Data? {
         struct ExportData: Codable {
             let classes: [UniversityClass]
@@ -50,11 +47,10 @@ class DataPersistence {
             let exportDate: Date
         }
         
-        // Aquí obtendrías los datos de tus stores
         let exportData = ExportData(
-            classes: [], // classStore.classes
-            tasks: [],   // taskStore.tasks
-            exams: [],   // examStore.exams
+            classes: [],
+            tasks: [],
+            exams: [],
             exportDate: Date()
         )
         
@@ -75,11 +71,6 @@ class DataPersistence {
         
         do {
             let importData = try decoder.decode(ImportData.self, from: data)
-            
-            // Aquí actualizarías tus stores con los datos importados
-            // classStore.classes = importData.classes
-            // taskStore.tasks = importData.tasks
-            // examStore.exams = importData.exams
             
             return true
         } catch {

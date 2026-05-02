@@ -19,7 +19,6 @@ struct ClassFormView: View {
     @State private var schedule: [ScheduleSlot] = []
     @State private var showingScheduleEditor = false
     
-    // Colores predeterminados (códigos "raros" como pediste)
     let presetColors: [(name: String, color: Color, hex: String)] = [
         ("", .blue, "#007AFF"),
         ("", Color(hex: "#FF6B6B"), "#FF6B6B"),

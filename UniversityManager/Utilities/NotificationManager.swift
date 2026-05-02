@@ -69,7 +69,7 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
         guard notificationDate > Date() else { return }
         
         let content = UNMutableNotificationContent()
-        content.title = "🚨 Próximo Examen"
+        content.title = "Próximo Examen"
         content.body = "\(exam.title) comienza en \(hoursBefore) horas"
         content.sound = .default
         
