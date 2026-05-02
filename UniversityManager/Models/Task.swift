@@ -16,6 +16,7 @@ struct TaskItem: Identifiable, Codable, Equatable {
     var dueDate: Date
     var priority: TaskPriority
     var notificationHoursBefore: Int?
+    var notificationDate: Date?
     var isPhysical: Bool
     var isCompleted: Bool
     var createdAt: Date
@@ -27,8 +28,10 @@ struct TaskItem: Identifiable, Codable, Equatable {
          dueDate: Date = Date(),
          priority: TaskPriority = .medium,
          notificationHoursBefore: Int? = nil,
+         notificationDate: Date? = nil,
          isPhysical: Bool = false,
-         isCompleted: Bool = false) {
+         isCompleted: Bool = false,
+         createdAt: Date = Date()) {
         self.id = id
         self.classId = classId
         self.title = title
@@ -36,9 +39,10 @@ struct TaskItem: Identifiable, Codable, Equatable {
         self.dueDate = dueDate
         self.priority = priority
         self.notificationHoursBefore = notificationHoursBefore
+        self.notificationDate = notificationDate
         self.isPhysical = isPhysical
         self.isCompleted = isCompleted
-        self.createdAt = Date()
+        self.createdAt = createdAt
     }
     
     var timeRemaining: TimeInterval {
@@ -55,6 +59,50 @@ struct TaskItem: Identifiable, Codable, Equatable {
         } else {
             return .normal
         }
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case classId
+        case title
+        case description
+        case dueDate
+        case priority
+        case notificationHoursBefore
+        case notificationDate
+        case isPhysical
+        case isCompleted
+        case createdAt
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        classId = try container.decode(UUID.self, forKey: .classId)
+        title = try container.decode(String.self, forKey: .title)
+        description = try container.decodeIfPresent(String.self, forKey: .description) ?? ""
+        dueDate = try container.decode(Date.self, forKey: .dueDate)
+        priority = try container.decode(TaskPriority.self, forKey: .priority)
+        notificationHoursBefore = try container.decodeIfPresent(Int.self, forKey: .notificationHoursBefore)
+        notificationDate = try container.decodeIfPresent(Date.self, forKey: .notificationDate)
+        isPhysical = try container.decodeIfPresent(Bool.self, forKey: .isPhysical) ?? false
+        isCompleted = try container.decodeIfPresent(Bool.self, forKey: .isCompleted) ?? false
+        createdAt = try container.decodeIfPresent(Date.self, forKey: .createdAt) ?? Date()
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(classId, forKey: .classId)
+        try container.encode(title, forKey: .title)
+        try container.encode(description, forKey: .description)
+        try container.encode(dueDate, forKey: .dueDate)
+        try container.encode(priority, forKey: .priority)
+        try container.encodeIfPresent(notificationHoursBefore, forKey: .notificationHoursBefore)
+        try container.encodeIfPresent(notificationDate, forKey: .notificationDate)
+        try container.encode(isPhysical, forKey: .isPhysical)
+        try container.encode(isCompleted, forKey: .isCompleted)
+        try container.encode(createdAt, forKey: .createdAt)
     }
 }
 

@@ -194,7 +194,7 @@ struct TaskDetailView: View {
                                 .fontWeight(.medium)
                         }
                         
-                        if let hoursBefore = task.notificationHoursBefore {
+                        if task.notificationDate != nil || task.notificationHoursBefore != nil {
                             HStack {
                                 Image(systemName: "bell")
                                     .foregroundColor(.purple)
@@ -206,7 +206,7 @@ struct TaskDetailView: View {
                                 
                                 Spacer()
                                 
-                                Text("\(hoursBefore) horas antes")
+                                Text(reminderText)
                                     .font(.body)
                                     .fontWeight(.medium)
                             }
@@ -333,5 +333,17 @@ struct TaskDetailView: View {
             let hours = (totalSeconds % 86400) / 3600
             return "\(days)d \(hours)h"
         }
+    }
+
+    private var reminderText: String {
+        if let notificationDate = task.notificationDate {
+            return notificationDate.formatted(date: .abbreviated, time: .shortened)
+        }
+
+        if let hoursBefore = task.notificationHoursBefore {
+            return "\(hoursBefore) horas antes"
+        }
+
+        return "Sin recordatorio"
     }
 }

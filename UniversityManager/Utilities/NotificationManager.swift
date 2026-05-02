@@ -35,9 +35,17 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
         guard authorized else { return }
         cancelNotification(for: task)
         
-        guard let hoursBefore = task.notificationHoursBefore, !task.isCompleted else { return }
-        
-        let notificationDate = task.dueDate.addingTimeInterval(TimeInterval(-hoursBefore * 3600))
+        guard !task.isCompleted else { return }
+
+        let notificationDate: Date
+        if let customNotificationDate = task.notificationDate {
+            notificationDate = customNotificationDate
+        } else if let hoursBefore = task.notificationHoursBefore {
+            notificationDate = task.dueDate.addingTimeInterval(TimeInterval(-hoursBefore * 3600))
+        } else {
+            return
+        }
+
         guard notificationDate > Date() else { return }
         
         let content = UNMutableNotificationContent()
