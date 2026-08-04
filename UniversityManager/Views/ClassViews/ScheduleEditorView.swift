@@ -39,12 +39,7 @@ struct ScheduleEditorView: View {
                         }
                     }
                     
-                    Toggle("Aplicar a todos los días seleccionados", isOn: $applyToAll)
-                        .onChange(of: applyToAll) { newValue in
-                            if newValue {
-                                selectedWeekdays = Set(Weekday.scheduleDays)
-                            }
-                        }
+                   
                 }
                 
                 Section(header: Text("Horario")) {
@@ -134,12 +129,7 @@ struct ScheduleEditorView: View {
                     }
                 }
                 
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Listo") {
-                        dismiss()
-                    }
-                }
-            }
+                            }
         }
     }
     

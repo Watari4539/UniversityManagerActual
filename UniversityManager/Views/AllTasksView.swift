@@ -312,7 +312,7 @@ struct EmptyTasksView: View {
     var message: String {
         switch filter {
         case 0: return "No hay tareas registradas"
-        case 1: return "¡Sos un crack pa! No tienes tareas pendientes "
+        case 1: return "No tienes tareas pendientes "
         case 2: return "No hay tareas completadas"
         default: return "No hay tareas"
         }

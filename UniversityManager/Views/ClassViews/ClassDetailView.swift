@@ -64,6 +64,25 @@ struct ClassDetailView: View {
                 }
                 .padding(.top, 20)
                 
+                // Action Buttons
+                HStack(spacing: 16) {
+                    ActionButton(
+                        icon: "plus.circle.fill",
+                        label: "Nueva Tarea",
+                        color: .blue
+                    ) {
+                        showingNewTask = true
+                    }
+                    
+                    ActionButton(
+                        icon: "doc.badge.plus",
+                        label: "Nuevo Examen",
+                        color: .orange
+                    ) {
+                        showingNewExam = true
+                    }
+                }
+                
                 // Quick Stats
                 HStack(spacing: 20) {
                     StatView(
@@ -118,24 +137,7 @@ struct ClassDetailView: View {
                 }
                 .padding(.horizontal)
                 
-                // Action Buttons
-                HStack(spacing: 16) {
-                    ActionButton(
-                        icon: "plus.circle.fill",
-                        label: "Nueva Tarea",
-                        color: .blue
-                    ) {
-                        showingNewTask = true
-                    }
-                    
-                    ActionButton(
-                        icon: "doc.badge.plus",
-                        label: "Nuevo Examen",
-                        color: .orange
-                    ) {
-                        showingNewExam = true
-                    }
-                }
+                
                 .padding(.horizontal)
                 .padding(.bottom, 30)
             }
