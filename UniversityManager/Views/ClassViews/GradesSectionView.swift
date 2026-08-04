@@ -9,45 +9,56 @@ import SwiftUI
 
 struct GradesSectionView: View {
     let classItem: UniversityClass
-        @EnvironmentObject var gradeStore: GradeStore  // ← AÑADE ESTO
-        @State private var showingAddGrade = false
-        @State private var selectedUnitForEdit: Int? = nil
-        
-        // Ya NO necesitamos grades: @State private var grades: [Grade] = []
-        // Ya NO necesitamos sampleGrades
-        
-        var grades: [Grade] {
-            gradeStore.gradesForClass(classItem.id)
-        }
-        
-        var average: Double {
-            gradeStore.averageForClass(classItem.id)  // ← USA GradeStore
-        }
+    @EnvironmentObject var gradeStore: GradeStore
+    @State private var showingAddGrade = false
+    
+    var grades: [Grade] {
+        gradeStore.gradesForClass(classItem.id)
+    }
+    
+    var average: Double {
+        gradeStore.averageForClass(classItem.id)
+    }
+    
+    private var hasRecordedGrades: Bool {
+        grades.contains { $0.score > 0 }
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             // Header con promedio
-            HStack {
-                Text("Calificaciones")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                
-                Spacer()
-                
-                if average > 0 {
-                    VStack(alignment: .trailing) {
-                        Text("Promedio")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        Text(String(format: "%.1f", average))
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(gradeColor(for: average))
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Text("Calificaciones")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    
+                    Spacer()
+                    
+                    if average > 0 {
+                        VStack(alignment: .trailing) {
+                            Text("Promedio")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Text(String(format: "%.1f", average))
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(gradeColor(for: average))
+                        }
                     }
                 }
+                
+                Button(action: { showingAddGrade = true }) {
+                    Label(
+                        hasRecordedGrades ? "Agregar Calificación" : "Agregar Primera Calificación",
+                        systemImage: "plus.circle.fill"
+                    )
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
             }
             
-            if grades.isEmpty || grades.allSatisfy({ $0.score == 0 }) {
+            if !hasRecordedGrades {
                 // Estado vacío
                 VStack(spacing: 20) {
                     Image(systemName: "chart.bar")
@@ -58,11 +69,6 @@ struct GradesSectionView: View {
                         .font(.body)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
-                    
-                    Button(action: { showingAddGrade = true }) {
-                        Label("Agregar Primera Calificación", systemImage: "plus.circle.fill")
-                    }
-                    .buttonStyle(.borderedProminent)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 40)
@@ -73,23 +79,15 @@ struct GradesSectionView: View {
                         ForEach(1...classItem.units, id: \.self) { unit in
                             UnitGradeCard(
                                 classItem: classItem,
-                                unit: unit,
+                                unit: unit
                             )
-                            .onTapGesture {
-                                selectedUnitForEdit = unit
-                                showingAddGrade = true
-                            }
                         }
                     }
                 }
-                
-                
-                .buttonStyle(.bordered)
-                .padding(.top)
             }
         }
         .sheet(isPresented: $showingAddGrade) {
-            GradeEditView(classItem: classItem, unit: selectedUnitForEdit)
+            GradeEditView(classItem: classItem)
         }
     }
 }
@@ -155,16 +153,13 @@ struct UnitGradeCard: View {
                     Text("Sin calificar")
                         .font(.body)
                         .foregroundColor(.secondary)
-                    Text("Toca para agregar calificación")
+                    Text("Usa el botón superior para agregarla")
                         .font(.caption)
-                        .foregroundColor(.blue)
+                        .foregroundColor(.secondary)
                 }
                 .padding(.leading, 12)
                 
                 Spacer()
-                
-                Image(systemName: "plus.circle")
-                    .foregroundColor(.blue)
             }
         }
         .padding()

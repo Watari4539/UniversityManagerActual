@@ -20,10 +20,11 @@ struct GradeEditView: View {
     
     // Calificación existente (si estamos editando)
     private var existingGrade: Grade? {
-        if let unit = unit {
-            return gradeStore.gradeForClassAndUnit(classItem.id, unit: unit)
-        }
-        return nil
+        gradeStore.gradeForClassAndUnit(classItem.id, unit: selectedUnit)
+    }
+    
+    private var isUnitLocked: Bool {
+        unit != nil
     }
     
     init(classItem: UniversityClass, unit: Int? = nil) {
@@ -45,7 +46,7 @@ struct GradeEditView: View {
                         }
                     }
                     .pickerStyle(.menu)
-                    .disabled(unit != nil) // Si viene con unidad específica, no se puede cambiar
+                    .disabled(isUnitLocked)
                 }
                 
                 Section(header: Text("Calificación")) {
@@ -102,12 +103,21 @@ struct GradeEditView: View {
                 }
             }
             .onAppear {
-                // Si estamos editando, cargar datos existentes
-                if let grade = existingGrade {
-                    score = String(format: "%.1f", grade.score)
-                    notes = grade.notes ?? ""
-                }
+                loadGradeForSelectedUnit()
             }
+            .onChange(of: selectedUnit) { _ in
+                loadGradeForSelectedUnit()
+            }
+        }
+    }
+    
+    private func loadGradeForSelectedUnit() {
+        if let grade = existingGrade {
+            score = String(format: "%.1f", grade.score)
+            notes = grade.notes ?? ""
+        } else {
+            score = ""
+            notes = ""
         }
     }
     
