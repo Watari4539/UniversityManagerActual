@@ -3,6 +3,7 @@ import SwiftUI
 struct ScheduleView: View {
     @EnvironmentObject var classStore: ClassStore
     @State private var selectedDay: Weekday = .monday
+    private let tabBarClearance: CGFloat = 96
     
     // LOGICA CLAVE: Filtra clases por semestre y luego extrae sus horarios
     var filteredSlots: [ScheduleSlot] {
@@ -75,6 +76,9 @@ struct ScheduleView: View {
                         }
                     }
                     .listStyle(PlainListStyle())
+                    .safeAreaInset(edge: .bottom) {
+                        Color.clear.frame(height: tabBarClearance)
+                    }
                 }
             }
             .navigationTitle("Horario")

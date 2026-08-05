@@ -10,10 +10,6 @@ struct GradesView: View {
             .sorted { $0.name < $1.name }
     }
     
-    var maxUnits: Int {
-        filteredClasses.map { $0.units }.max() ?? 5
-    }
-    
     var semesterAverage: Double {
         let classAverages = filteredClasses.map { gradeStore.averageForClass($0.id) }
         let validAverages = classAverages.filter { $0 > 0 }
@@ -88,7 +84,6 @@ struct GradesView: View {
                     // Tabla simplificada
                     GradesTableView(
                         classes: filteredClasses,
-                        maxUnits: maxUnits,
                         gradeStore: gradeStore
                     )
                 }
@@ -109,7 +104,6 @@ struct GradesView: View {
 // Tabla simplificada
 struct GradesTableView: View {
     let classes: [UniversityClass]
-    let maxUnits: Int
     @ObservedObject var gradeStore: GradeStore
     
     var body: some View {
@@ -118,7 +112,6 @@ struct GradesTableView: View {
                 ForEach(classes) { classItem in
                     ClassGradesRow(
                         classItem: classItem,
-                        maxUnits: maxUnits,
                         gradeStore: gradeStore
                     )
                 }
@@ -134,7 +127,6 @@ struct GradesTableView: View {
 // Fila de calificaciones por materia
 struct ClassGradesRow: View {
     let classItem: UniversityClass
-    let maxUnits: Int
     @ObservedObject var gradeStore: GradeStore
     
     var average: Double {
@@ -171,15 +163,6 @@ struct ClassGradesRow: View {
                             unit: unit,
                             gradeStore: gradeStore
                         )
-                    }
-                    
-                    // Espacio para materias con menos unidades
-                    if classItem.units < maxUnits {
-                        ForEach(classItem.units+1...maxUnits, id: \.self) { _ in
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.clear)
-                                .frame(width: 60, height: 60)
-                        }
                     }
                 }
             }
