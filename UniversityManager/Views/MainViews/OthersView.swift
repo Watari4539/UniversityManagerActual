@@ -11,6 +11,14 @@ struct OthersView: View {
     var body: some View {
         NavigationView {
             List {
+                Section("Resumen") {
+                    NavigationLink {
+                        SemesterStatsView()
+                    } label: {
+                        Label("Estadísticas del Semestre", systemImage: "chart.pie.fill")
+                    }
+                }
+
                 Section {
                     NavigationLink {
                         SettingsContentView()

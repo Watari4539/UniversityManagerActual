@@ -1,6 +1,19 @@
 import SwiftUI
 import Combine
 
+struct SemesterInfo: Identifiable, Codable, Equatable {
+    var number: Int
+    var startDate: Date?
+    var endDate: Date?
+
+    var id: Int { number }
+}
+
+private struct SemesterDateRange: Codable, Equatable {
+    var startDate: Date?
+    var endDate: Date?
+}
+
 class ClassStore: ObservableObject {
     @Published var classes: [UniversityClass] = []
     @Published var selectedClass: UniversityClass?
@@ -10,6 +23,16 @@ class ClassStore: ObservableObject {
         }
     }
     @Published private(set) var availableSemesters: [Int] = Array(1...9) {
+        didSet {
+            saveSemesterSettings()
+        }
+    }
+    @Published private var semesterDateRanges: [Int: SemesterDateRange] = [:] {
+        didSet {
+            saveSemesterSettings()
+        }
+    }
+    @Published private var reviewedStatsSemesters: Set<Int> = [] {
         didSet {
             saveSemesterSettings()
         }
@@ -26,6 +49,12 @@ class ClassStore: ObservableObject {
         }
 
         return semester
+    }
+
+    var semesters: [SemesterInfo] {
+        availableSemesters.map { number in
+            semesterInfo(for: number)
+        }
     }
     
     init() {
@@ -75,6 +104,8 @@ class ClassStore: ObservableObject {
         guard availableSemesters.count > 1 else { return }
 
         availableSemesters.removeAll { $0 == semester }
+        semesterDateRanges.removeValue(forKey: semester)
+        reviewedStatsSemesters.remove(semester)
         classes.removeAll { $0.semester == semester }
 
         if currentSemester == semester {
@@ -90,6 +121,47 @@ class ClassStore: ObservableObject {
     
     func findClass(by id: UUID) -> UniversityClass? {
         classes.first { $0.id == id }
+    }
+
+    func semesterInfo(for semester: Int) -> SemesterInfo {
+        SemesterInfo(
+            number: semester,
+            startDate: semesterDateRanges[semester]?.startDate,
+            endDate: semesterDateRanges[semester]?.endDate
+        )
+    }
+
+    func updateSemesterDates(_ semester: Int, startDate: Date?, endDate: Date?) {
+        let storedEndDate = semesterDateRanges[semester]?.endDate
+        let finalEndDate = hasReviewedStats(for: semester) ? storedEndDate : endDate
+
+        if startDate == nil && finalEndDate == nil {
+            semesterDateRanges.removeValue(forKey: semester)
+        } else {
+            semesterDateRanges[semester] = SemesterDateRange(
+                startDate: startDate,
+                endDate: finalEndDate
+            )
+        }
+    }
+
+    func hasReviewedStats(for semester: Int) -> Bool {
+        reviewedStatsSemesters.contains(semester)
+    }
+
+    func markStatsReviewed(for semester: Int) {
+        reviewedStatsSemesters.insert(semester)
+    }
+
+    func semesterEndHasPassed(_ semester: Int, now: Date = Date()) -> Bool {
+        guard let endDate = semesterDateRanges[semester]?.endDate else { return false }
+        let startOfNextDay = Calendar.current.date(
+            byAdding: .day,
+            value: 1,
+            to: Calendar.current.startOfDay(for: endDate)
+        ) ?? endDate
+
+        return now >= startOfNextDay
     }
     
     private func saveClasses() {
@@ -115,7 +187,9 @@ class ClassStore: ObservableObject {
     private func saveSemesterSettings() {
         let settings = SemesterSettings(
             availableSemesters: availableSemesters,
-            currentSemester: currentSemester
+            currentSemester: currentSemester,
+            semesterDateRanges: semesterDateRanges,
+            reviewedStatsSemesters: Array(reviewedStatsSemesters)
         )
 
         if let encoded = try? JSONEncoder().encode(settings) {
@@ -131,6 +205,8 @@ class ClassStore: ObservableObject {
 
         let semesters = settings.availableSemesters.isEmpty ? Array(1...9) : settings.availableSemesters
         availableSemesters = Array(Set(semesters)).sorted()
+        semesterDateRanges = settings.semesterDateRanges ?? [:]
+        reviewedStatsSemesters = Set(settings.reviewedStatsSemesters ?? [])
         currentSemester = availableSemesters.contains(settings.currentSemester)
             ? settings.currentSemester
             : (availableSemesters.first ?? 1)
@@ -160,4 +236,6 @@ class ClassStore: ObservableObject {
 private struct SemesterSettings: Codable {
     var availableSemesters: [Int]
     var currentSemester: Int
+    var semesterDateRanges: [Int: SemesterDateRange]?
+    var reviewedStatsSemesters: [Int]?
 }
