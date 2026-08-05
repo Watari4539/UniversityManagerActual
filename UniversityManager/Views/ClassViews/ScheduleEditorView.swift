@@ -3,6 +3,7 @@ import SwiftUI
 struct ScheduleEditorView: View {
     @Binding var schedule: [ScheduleSlot]
     let defaultRoom: String
+    let editingSlot: ScheduleSlot?
     @Environment(\.dismiss) var dismiss
     
     @State private var selectedWeekdays: Set<Weekday> = []
@@ -15,6 +16,25 @@ struct ScheduleEditorView: View {
     
     let hours = Array(7...21)
     let minutes = [0, 15, 30, 45]
+
+    private var isEditing: Bool {
+        editingSlot != nil
+    }
+
+    init(schedule: Binding<[ScheduleSlot]>, defaultRoom: String, editingSlot: ScheduleSlot? = nil) {
+        self._schedule = schedule
+        self.defaultRoom = defaultRoom
+        self.editingSlot = editingSlot
+
+        if let editingSlot {
+            _selectedWeekdays = State(initialValue: [editingSlot.weekday])
+            _startHour = State(initialValue: editingSlot.startHour)
+            _startMinute = State(initialValue: editingSlot.startMinute)
+            _endHour = State(initialValue: editingSlot.endHour)
+            _endMinute = State(initialValue: editingSlot.endMinute)
+            _room = State(initialValue: editingSlot.room)
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -31,7 +51,9 @@ struct ScheduleEditorView: View {
                         }
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            if selectedWeekdays.contains(weekday) {
+                            if isEditing {
+                                selectedWeekdays = [weekday]
+                            } else if selectedWeekdays.contains(weekday) {
                                 selectedWeekdays.remove(weekday)
                             } else {
                                 selectedWeekdays.insert(weekday)
@@ -103,16 +125,18 @@ struct ScheduleEditorView: View {
                         .textInputAutocapitalization(.characters)
                         .autocorrectionDisabled()
                         .onAppear {
-                            room = defaultRoom
+                            if room.isEmpty {
+                                room = defaultRoom
+                            }
                         }
                 }
                 
                 Section {
-                    Button(action: addSchedule) {
+                    Button(action: saveSchedule) {
                         HStack {
                             Spacer()
-                            Image(systemName: "calendar.badge.plus")
-                            Text("Agregar al Horario")
+                            Image(systemName: isEditing ? "checkmark.circle.fill" : "calendar.badge.plus")
+                            Text(isEditing ? "Guardar Horario" : "Agregar al Horario")
                                 .fontWeight(.semibold)
                             Spacer()
                         }
@@ -120,7 +144,7 @@ struct ScheduleEditorView: View {
                     .disabled(selectedWeekdays.isEmpty || room.isEmpty)
                 }
             }
-            .navigationTitle("Configurar Horario")
+            .navigationTitle(isEditing ? "Editar Horario" : "Configurar Horario")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -133,10 +157,29 @@ struct ScheduleEditorView: View {
         }
     }
     
-    private func addSchedule() {
+    private func saveSchedule() {
+        if let editingSlot, let weekday = selectedWeekdays.first {
+            let updatedSlot = ScheduleSlot(
+                id: editingSlot.id,
+                weekday: weekday,
+                startHour: startHour,
+                startMinute: startMinute,
+                endHour: endHour,
+                endMinute: endMinute,
+                room: room.isEmpty ? defaultRoom : room
+            )
+
+            if let index = schedule.firstIndex(where: { $0.id == editingSlot.id }) {
+                schedule[index] = updatedSlot
+            }
+
+            dismiss()
+            return
+        }
+
         for weekday in selectedWeekdays {
             let newSlot = ScheduleSlot(
-                id: UUID(), // ← AÑADIR ID
+                id: UUID(),
                 weekday: weekday,
                 startHour: startHour,
                 startMinute: startMinute,

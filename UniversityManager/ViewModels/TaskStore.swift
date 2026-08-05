@@ -73,6 +73,10 @@ class TaskStore: ObservableObject {
         saveTasks()
         NotificationManager.shared.cancelAllNotifications()
     }
+
+    func rescheduleNotifications() {
+        tasks.forEach { scheduleNotification(for: $0) }
+    }
     
     // MARK: - Filtros
     

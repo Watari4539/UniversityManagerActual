@@ -26,7 +26,7 @@ struct CustomTabBar: View {
                 case 4:
                     GradesView()
                 case 5:
-                    SettingsView()
+                    OthersView()
                 default:
                     ClassesView(resetToken: classesResetToken)
                 }
@@ -71,7 +71,7 @@ struct TabBarButton: View {
         case 2: return "person.3"
         case 3: return "calendar"
         case 4: return "chart.bar"
-        case 5: return "gearshape"
+        case 5: return "ellipsis.circle"
         default: return "circle"
         }
     }
@@ -83,7 +83,7 @@ struct TabBarButton: View {
         case 2: return "Clases"
         case 3: return "Horario"
         case 4: return "Notas"
-        case 5: return "Ajustes"
+        case 5: return "Otros"
         default: return ""
         }
     }

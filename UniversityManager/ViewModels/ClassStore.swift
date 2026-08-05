@@ -17,6 +17,16 @@ class ClassStore: ObservableObject {
     
     private let saveKey = "savedClasses"
     private let semesterSettingsKey = "savedSemesterSettings"
+
+    var suggestedNewSemester: Int {
+        var semester = 1
+
+        while availableSemesters.contains(semester) {
+            semester += 1
+        }
+
+        return semester
+    }
     
     init() {
         loadSemesterSettings()
@@ -44,7 +54,13 @@ class ClassStore: ObservableObject {
     }
 
     func addSemester() {
-        let newSemester = (availableSemesters.max() ?? 0) + 1
+        addSemester(number: suggestedNewSemester)
+    }
+
+    func addSemester(number: Int) {
+        let newSemester = max(1, number)
+        guard !availableSemesters.contains(newSemester) else { return }
+
         availableSemesters.append(newSemester)
         availableSemesters.sort()
         currentSemester = newSemester

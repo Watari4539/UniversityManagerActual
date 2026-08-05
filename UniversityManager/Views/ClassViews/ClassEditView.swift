@@ -17,12 +17,14 @@ struct ClassEditView: View {
     
     @State private var className: String
     @State private var professor: String
+    @State private var group: String
     @State private var semester: Int
     @State private var units: Int
     @State private var room: String
     @State private var selectedColor: Color
     @State private var schedule: [ScheduleSlot]
     @State private var showingScheduleEditor = false
+    @State private var scheduleSlotToEdit: ScheduleSlot?
     @State private var showingDeleteAlert = false
     
     // Colores predeterminados
@@ -43,6 +45,7 @@ struct ClassEditView: View {
         self.classItem = classItem
         _className = State(initialValue: classItem.name)
         _professor = State(initialValue: classItem.professor)
+        _group = State(initialValue: classItem.group ?? "")
         _semester = State(initialValue: classItem.semester)
         _units = State(initialValue: classItem.units)
         _room = State(initialValue: classItem.room)
@@ -57,6 +60,13 @@ struct ClassEditView: View {
                     TextField("Nombre de la materia", text: $className)
                     
                     TextField("Nombre del profesor", text: $professor)
+
+                    TextField("Grupo (opcional)", text: $group)
+                        .textInputAutocapitalization(.characters)
+                        .autocorrectionDisabled()
+                        .onChange(of: group) { _, newValue in
+                            group = sanitizedGroup(newValue)
+                        }
                     
                     Picker("Semestre", selection: $semester) {
                         ForEach(classStore.availableSemesters, id: \.self) { num in
@@ -94,6 +104,18 @@ struct ClassEditView: View {
                                 }
                                 .frame(width: 60)
                             }
+
+                            VStack(spacing: 6) {
+                                ColorPicker("", selection: $selectedColor, supportsOpacity: false)
+                                    .labelsHidden()
+                                    .frame(width: 40, height: 40)
+                                    .scaleEffect(1.15)
+
+                                Text("RGB")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                            }
+                            .frame(width: 60)
                         }
                         .padding(.vertical, 8)
                     }
@@ -122,6 +144,15 @@ struct ClassEditView: View {
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 4)
                                     .background(Capsule().fill(Color.gray.opacity(0.2)))
+
+                                Button(action: {
+                                    scheduleSlotToEdit = slot
+                                }) {
+                                    Image(systemName: "pencil")
+                                        .font(.caption)
+                                        .foregroundColor(.blue)
+                                }
+                                .buttonStyle(.borderless)
                                 
                                 Button(action: {
                                     if let index = schedule.firstIndex(where: { $0.id == slot.id }) {
@@ -133,6 +164,10 @@ struct ClassEditView: View {
                                         .foregroundColor(.red)
                                 }
                                 .buttonStyle(.borderless)
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                scheduleSlotToEdit = slot
                             }
                         }
                     }
@@ -190,17 +225,21 @@ struct ClassEditView: View {
             .sheet(isPresented: $showingScheduleEditor) {
                 ScheduleEditorView(schedule: $schedule, defaultRoom: room)
             }
+            .sheet(item: $scheduleSlotToEdit) { slot in
+                ScheduleEditorView(schedule: $schedule, defaultRoom: room, editingSlot: slot)
+            }
         }
     }
     
     private func saveChanges() {
-        let hexColor = presetColors.first { $0.color == selectedColor }?.hex ?? classItem.colorHex
+        let hexColor = selectedColor.toHex()
         
         // Crear clase actualizada SIN createdAt
         let updatedClass = UniversityClass(
             id: classItem.id,
             name: className,
             professor: professor,
+            group: normalizedGroup,
             semester: semester,
             colorHex: hexColor,
             units: units,
@@ -218,5 +257,14 @@ struct ClassEditView: View {
         examStore.deleteExamsForClass(classItem.id)
         gradeStore.deleteGradesForClass(classItem.id)
         dismiss()
+    }
+
+    private var normalizedGroup: String? {
+        let trimmedGroup = group.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmedGroup.isEmpty ? nil : trimmedGroup
+    }
+
+    private func sanitizedGroup(_ value: String) -> String {
+        String(value.uppercased().filter { $0.isLetter || $0.isNumber }.prefix(6))
     }
 }

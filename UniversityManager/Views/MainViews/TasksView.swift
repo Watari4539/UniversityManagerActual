@@ -6,6 +6,7 @@ struct TasksView: View {
     @EnvironmentObject var classStore: ClassStore
     @State private var showingTaskDetail: TaskItem?
     @State private var showingEditTask: TaskItem?
+    private let tabBarClearance: CGFloat = 96
     
     var body: some View {
         NavigationView {
@@ -87,6 +88,9 @@ struct TasksView: View {
                             .padding(.vertical)
                         }
                     }
+                }
+                .safeAreaInset(edge: .bottom) {
+                    Color.clear.frame(height: tabBarClearance)
                 }
             }
             .navigationBarHidden(true)

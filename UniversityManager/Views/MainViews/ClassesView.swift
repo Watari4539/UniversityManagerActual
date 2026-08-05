@@ -124,6 +124,7 @@ struct SemesterPickerSheet: View {
     @EnvironmentObject var gradeStore: GradeStore
     @Environment(\.dismiss) var dismiss
     @State private var semesterPendingDeletion: Int?
+    @State private var newSemesterNumber = 1
     
     var body: some View {
         NavigationView {
@@ -155,13 +156,28 @@ struct SemesterPickerSheet: View {
                 }
 
                 Section {
-                    Button(action: classStore.addSemester) {
-                        Label("Agregar Semestre", systemImage: "plus.circle.fill")
+                    Stepper(
+                        "Nuevo semestre: \(newSemesterNumber)",
+                        value: $newSemesterNumber,
+                        in: 1...99
+                    )
+
+                    Button(action: addSelectedSemester) {
+                        Label("Agregar Semestre \(newSemesterNumber)", systemImage: "plus.circle.fill")
                     }
+                    .disabled(classStore.availableSemesters.contains(newSemesterNumber))
                 }
             }
             .navigationTitle("Cambiar Semestre")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                newSemesterNumber = classStore.suggestedNewSemester
+            }
+            .onChange(of: classStore.availableSemesters) { _, _ in
+                if classStore.availableSemesters.contains(newSemesterNumber) {
+                    newSemesterNumber = classStore.suggestedNewSemester
+                }
+            }
             .alert(
                 "¿Eliminar Semestre \(semesterPendingDeletion ?? 0)?",
                 isPresented: Binding(
@@ -211,5 +227,10 @@ struct SemesterPickerSheet: View {
 
         classStore.deleteSemester(semester)
         semesterPendingDeletion = nil
+    }
+
+    private func addSelectedSemester() {
+        classStore.addSemester(number: newSemesterNumber)
+        newSemesterNumber = classStore.suggestedNewSemester
     }
 }

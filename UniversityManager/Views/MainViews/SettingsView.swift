@@ -8,6 +8,16 @@
 import SwiftUI
 
 struct SettingsView: View {
+    var body: some View {
+        NavigationView {
+            SettingsContentView()
+        }
+    }
+}
+
+struct SettingsContentView: View {
+    @EnvironmentObject var taskStore: TaskStore
+    @EnvironmentObject var examStore: ExamStore
     @AppStorage("appTheme") private var appTheme = "light"
     @AppStorage("notificationsEnabled") private var notificationsEnabled = true
     @State private var showingAbout = false
@@ -16,79 +26,78 @@ struct SettingsView: View {
     let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
     
     var body: some View {
-        NavigationView {
-            List {
-                
-                Section(header: Text("Notificaciones")) {
-                    Toggle("Activar notificaciones", isOn: $notificationsEnabled)
-                    
-                    if notificationsEnabled {
-                        NavigationLink {
-                            NotificationSettingsView()
-                        } label: {
-                            HStack {
-                                Image(systemName: "bell.badge")
-                                    .foregroundColor(.blue)
-                                Text("Configurar notificaciones")
-                            }
-                        }
-                    }
-                }
-                
-                Section(header: Text("Datos")) {
-                    Button(role: .destructive) {
-                        // Acción para exportar datos
-                    } label: {
-                        HStack {
-                            Image(systemName: "square.and.arrow.up")
-                            Text("Exportar datos")
-                        }
-                    }
-                    
-                    Button(role: .destructive) {
-                        // Acción para borrar todos los datos
-                    } label: {
-                        HStack {
-                            Image(systemName: "trash")
-                            Text("Borrar todos los datos")
-                        }
-                        .foregroundColor(.red)
-                    }
-                }
-                
-                Section(header: Text("Acerca de")) {
+        List {
+            Section(header: Text("Notificaciones")) {
+                Toggle("Activar notificaciones", isOn: $notificationsEnabled)
+            }
+            
+            Section(header: Text("Datos")) {
+                Button(role: .destructive) {
+                    // Acción para exportar datos
+                } label: {
                     HStack {
-                        Text("Versión")
-                        Spacer()
-                        Text("\(appVersion) (\(buildNumber))")
-                            .foregroundColor(.secondary)
+                        Image(systemName: "square.and.arrow.up")
+                        Text("Exportar datos")
                     }
-                    
-                    Button {
-                        showingAbout = true
-                    } label: {
-                        HStack {
-                            Image(systemName: "info.circle")
-                            Text("Acerca de Illuminico")
-                        }
+                }
+                
+                Button(role: .destructive) {
+                    // Acción para borrar todos los datos
+                } label: {
+                    HStack {
+                        Image(systemName: "trash")
+                        Text("Borrar todos los datos")
                     }
-                    
-                    Link(destination: URL(string: "https://github.com")!) {
-                        HStack {
-                            Image(systemName: "chevron.left.forwardslash.chevron.right")
-                            Text("Código fuente")
-                            Spacer()
-                            Image(systemName: "arrow.up.right")
-                                .font(.caption)
-                        }
-                    }
-                    .foregroundColor(.blue)
+                    .foregroundColor(.red)
                 }
             }
-            .navigationTitle("Configuración")
-            .sheet(isPresented: $showingAbout) {
-                AboutView()
+            
+            Section(header: Text("Acerca de")) {
+                HStack {
+                    Text("Versión")
+                    Spacer()
+                    Text("\(appVersion) (\(buildNumber))")
+                        .foregroundColor(.secondary)
+                }
+                
+                Button {
+                    showingAbout = true
+                } label: {
+                    HStack {
+                        Image(systemName: "info.circle")
+                        Text("Acerca de Illuminico")
+                    }
+                }
+                
+                Link(destination: URL(string: "https://github.com")!) {
+                    HStack {
+                        Image(systemName: "chevron.left.forwardslash.chevron.right")
+                        Text("Código fuente")
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                            .font(.caption)
+                    }
+                }
+                .foregroundColor(.blue)
             }
+        }
+        .navigationTitle("Ajustes")
+        .onAppear {
+            NotificationManager.shared.setNotificationsEnabled(notificationsEnabled) { granted in
+                guard granted else { return }
+                taskStore.rescheduleNotifications()
+                examStore.rescheduleNotifications()
+            }
+        }
+        .onChange(of: notificationsEnabled) { _, enabled in
+            NotificationManager.shared.setNotificationsEnabled(enabled) { granted in
+                guard granted else { return }
+                taskStore.rescheduleNotifications()
+                examStore.rescheduleNotifications()
+            }
+        }
+        .sheet(isPresented: $showingAbout) {
+            AboutView()
         }
     }
 }
@@ -99,20 +108,12 @@ struct AboutView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     // App Icon
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(
-                            LinearGradient(
-                                colors: [.blue, .purple],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
+                    Image("AppLogo")
+                        .resizable()
+                        .scaledToFill()
                         .frame(width: 120, height: 120)
-                        .overlay(
-                            Image(systemName: "graduationcap.fill")
-                                .font(.system(size: 50))
-                                .foregroundColor(.white)
-                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 5)
                     
                     // App Name
                     VStack(spacing: 8) {
@@ -202,42 +203,5 @@ struct FeatureRow: View {
                     .foregroundColor(.secondary)
             }
         }
-    }
-}
-
-struct NotificationSettingsView: View {
-    @AppStorage("taskNotifications") private var taskNotifications = true
-    @AppStorage("examNotifications") private var examNotifications = true
-    @AppStorage("defaultNotificationTime") private var defaultNotificationTime = 24
-    
-    let notificationTimes = [1, 2, 6, 12, 24, 48]
-    
-    var body: some View {
-        Form {
-            Section(header: Text("Tipos de Notificaciones")) {
-                Toggle("Notificaciones de tareas", isOn: $taskNotifications)
-                Toggle("Notificaciones de exámenes", isOn: $examNotifications)
-            }
-            
-            Section(header: Text("Tiempo por Defecto")) {
-                Picker("Notificar antes", selection: $defaultNotificationTime) {
-                    ForEach(notificationTimes, id: \.self) { hours in
-                        Text("\(hours) horas").tag(hours)
-                    }
-                }
-            }
-            
-            Section(header: Text("Prueba")) {
-                Button("Probar notificación") {
-                    // Enviar notificación de prueba
-                }
-            }
-            
-            Section(footer: Text("Las notificaciones se enviarán a la hora configurada antes de cada vencimiento.")) {
-                // Footer text
-            }
-        }
-        .navigationTitle("Notificaciones")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }

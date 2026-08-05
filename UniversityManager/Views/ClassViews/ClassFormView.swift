@@ -12,6 +12,7 @@ struct ClassFormView: View {
     @Environment(\.dismiss) var dismiss
     @State private var className = ""
     @State private var professor = ""
+    @State private var group = ""
     @State private var semester = 1
     @State private var units = 1
     @State private var room = ""
@@ -19,6 +20,7 @@ struct ClassFormView: View {
     @State private var schedule: [ScheduleSlot] = []
     @State private var showingScheduleEditor = false
     @State private var didSetDefaultSemester = false
+    @State private var scheduleSlotToEdit: ScheduleSlot?
     
     let presetColors: [(name: String, color: Color, hex: String)] = [
         ("", .blue, "#007AFF"),
@@ -40,6 +42,13 @@ struct ClassFormView: View {
                     TextField("Nombre de la materia", text: $className)
                     
                     TextField("Nombre del profesor", text: $professor)
+
+                    TextField("Grupo (opcional)", text: $group)
+                        .textInputAutocapitalization(.characters)
+                        .autocorrectionDisabled()
+                        .onChange(of: group) { _, newValue in
+                            group = sanitizedGroup(newValue)
+                        }
                     
                     Picker("Semestre", selection: $semester) {
                         ForEach(classStore.availableSemesters, id: \.self) { num in
@@ -77,6 +86,18 @@ struct ClassFormView: View {
                                 }
                                 .frame(width: 60)
                             }
+
+                            VStack(spacing: 6) {
+                                ColorPicker("", selection: $selectedColor, supportsOpacity: false)
+                                    .labelsHidden()
+                                    .frame(width: 40, height: 40)
+                                    .scaleEffect(1.15)
+
+                                Text("RGB")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                            }
+                            .frame(width: 60)
                         }
                         .padding(.vertical, 8)
                     }
@@ -105,6 +126,19 @@ struct ClassFormView: View {
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 4)
                                     .background(Capsule().fill(Color.gray.opacity(0.2)))
+
+                                Button(action: {
+                                    scheduleSlotToEdit = slot
+                                }) {
+                                    Image(systemName: "pencil")
+                                        .font(.caption)
+                                        .foregroundColor(.blue)
+                                }
+                                .buttonStyle(.borderless)
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                scheduleSlotToEdit = slot
                             }
                         }
                         .onDelete { indices in
@@ -145,6 +179,9 @@ struct ClassFormView: View {
             .sheet(isPresented: $showingScheduleEditor) {
                 ScheduleEditorView(schedule: $schedule, defaultRoom: room)
             }
+            .sheet(item: $scheduleSlotToEdit) { slot in
+                ScheduleEditorView(schedule: $schedule, defaultRoom: room, editingSlot: slot)
+            }
             .onAppear {
                 guard !didSetDefaultSemester else { return }
                 semester = classStore.currentSemester
@@ -154,11 +191,12 @@ struct ClassFormView: View {
     }
     
     private func saveClass() {
-        let hexColor = presetColors.first { $0.color == selectedColor }?.hex ?? "#007AFF"
+        let hexColor = selectedColor.toHex()
         
         let newClass = UniversityClass(
             name: className,
             professor: professor,
+            group: normalizedGroup,
             semester: semester,
             colorHex: hexColor,
             units: units,
@@ -168,5 +206,14 @@ struct ClassFormView: View {
         
         classStore.addClass(newClass)
         dismiss()
+    }
+
+    private var normalizedGroup: String? {
+        let trimmedGroup = group.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmedGroup.isEmpty ? nil : trimmedGroup
+    }
+
+    private func sanitizedGroup(_ value: String) -> String {
+        String(value.uppercased().filter { $0.isLetter || $0.isNumber }.prefix(6))
     }
 }

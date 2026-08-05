@@ -41,8 +41,6 @@ struct UniversityManagerApp: App {
                 .environmentObject(gradeStore)
                 .preferredColorScheme(.light)
                 .onAppear {
-                                    // ESTO FORZA EL PERMISO AL ABRIR LA APP
-                    NotificationManager.shared.requestAuthorization()
                     openQuickTaskFormIfNeeded()
                     openPendingNotificationTaskIfNeeded()
                 }
@@ -53,7 +51,7 @@ struct UniversityManagerApp: App {
                     }
                 }
                 .onOpenURL { url in
-                    openQuickTaskForm(from: url)
+                    openDeepLink(url)
                 }
                 .onReceive(NotificationCenter.default.publisher(for: NotificationManager.taskNotificationTapped)) { _ in
                     openPendingNotificationTaskIfNeeded()
@@ -76,10 +74,34 @@ struct UniversityManagerApp: App {
         }
     }
     
-    private func openQuickTaskForm(from url: URL) {
+    private func openDeepLink(_ url: URL) {
         guard url.scheme == "illuminico" else { return }
-        guard url.host == "quick-task" || url.path == "/quick-task" else { return }
+
+        if url.host == "quick-task" || url.path == "/quick-task" {
+            openQuickTaskForm(from: url)
+            return
+        }
+
+        if url.host == "task" {
+            openTask(from: url)
+        }
+    }
+
+    private func openQuickTaskForm(from url: URL) {
         showingQuickTaskForm = true
+    }
+
+    private func openTask(from url: URL) {
+        let taskIdString = url.pathComponents.dropFirst().first
+
+        guard let taskIdString,
+              let taskId = UUID(uuidString: taskIdString),
+              let task = taskStore.findTask(by: taskId) else {
+            return
+        }
+
+        showingQuickTaskForm = false
+        taskFromNotification = task
     }
     
     private func openQuickTaskFormIfNeeded() {

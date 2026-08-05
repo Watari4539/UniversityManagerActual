@@ -49,12 +49,11 @@ struct AllTasksView: View {
     }
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color(.systemGroupedBackground)
-                    .edgesIgnoringSafeArea(.all)
-                
-                VStack(spacing: 0) {
+        ZStack {
+            Color(.systemGroupedBackground)
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack(spacing: 0) {
                     // Stats Bar
                     HStack(spacing: 20) {
                         StatBadge(
@@ -144,17 +143,23 @@ struct AllTasksView: View {
                 }
             }
             .navigationTitle("Tareas de \(classItem.name)")
+            .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         dismiss()
                     } label: {
-                        HStack {
-                            Image(systemName: "")
-                            Text("")
-                        }
+                        Image(systemName: "chevron.left")
+                            .font(.headline.weight(.semibold))
+                            .foregroundColor(.blue)
+                            .frame(width: 34, height: 34)
+                            .background(
+                                Circle()
+                                    .fill(Color.blue.opacity(0.12))
+                            )
                     }
+                    .buttonStyle(.plain)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -172,9 +177,8 @@ struct AllTasksView: View {
             .sheet(item: $showingEditTask) { task in
                 TaskFormView(classId: classItem.id, editingTask: task)
             }
-            .sheet(item: $showingTaskDetail) { task in
-                TaskDetailView(task: task)
-            }
+        .sheet(item: $showingTaskDetail) { task in
+            TaskDetailView(task: task)
         }
     }
 }
@@ -373,4 +377,3 @@ struct StatBadge: View {
         .frame(maxWidth: .infinity)
     }
 }
-

@@ -34,10 +34,19 @@ extension Color {
     }
     
     func toHex() -> String {
-        guard let components = UIColor(self).cgColor.components else { return "#000000" }
-        let r = Float(components[0])
-        let g = Float(components[1])
-        let b = Float(components[2])
+        let uiColor = UIColor(self)
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+
+        guard uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha) else {
+            return "#000000"
+        }
+
+        let r = Float(red)
+        let g = Float(green)
+        let b = Float(blue)
         return String(format: "#%02lX%02lX%02lX",
                      lroundf(r * 255),
                      lroundf(g * 255),

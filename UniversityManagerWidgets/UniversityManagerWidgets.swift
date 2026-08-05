@@ -190,6 +190,7 @@ struct UpcomingTaskWidgetView: View {
                 .foregroundColor(.secondary)
             }
             .containerBackground(Color(.secondarySystemBackground), for: .widget)
+            .widgetURL(URL(string: "illuminico://task/\(task.id.uuidString)"))
         } else {
             VStack(alignment: .leading, spacing: 8) {
                 Image(systemName: "checkmark.circle.fill")

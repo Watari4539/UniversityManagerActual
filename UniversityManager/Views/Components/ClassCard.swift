@@ -73,6 +73,11 @@ struct ClassCard: View {
                 HStack(spacing: 20) {
                     Label("\(classItem.units) u", systemImage: "number.circle")
                         .font(.caption)
+
+                    if let group = classItem.group, !group.isEmpty {
+                        Label(group, systemImage: "person.2")
+                            .font(.caption)
+                    }
                     
                     Label(classItem.room, systemImage: "mappin.circle")
                         .font(.caption)

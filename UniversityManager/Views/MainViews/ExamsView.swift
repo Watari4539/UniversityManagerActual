@@ -13,6 +13,7 @@ struct ExamsView: View {
     @EnvironmentObject var classStore: ClassStore
     @State private var showingExamDetail: Exam?
     @State private var showingEditExam: Exam?
+    private let tabBarClearance: CGFloat = 96
     
     var body: some View {
         NavigationView {
@@ -90,6 +91,9 @@ struct ExamsView: View {
                             .padding(.vertical)
                         }
                     }
+                }
+                .safeAreaInset(edge: .bottom) {
+                    Color.clear.frame(height: tabBarClearance)
                 }
             }
             .navigationBarHidden(true)

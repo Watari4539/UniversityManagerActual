@@ -71,6 +71,10 @@ class ExamStore: ObservableObject {
         // Pero como en Settings borramos todo, el NotificationManager.shared.cancelAllNotifications()
         // que pusimos en SettingsView se encarga de todo.
     }
+
+    func rescheduleNotifications() {
+        exams.forEach { scheduleNotification(for: $0) }
+    }
     
     // MARK: - Filtros
     

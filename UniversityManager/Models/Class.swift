@@ -12,6 +12,7 @@ struct UniversityClass: Identifiable, Codable, Equatable {
     let id: UUID
     var name: String
     var professor: String
+    var group: String?
     var semester: Int
     var colorHex: String
     var units: Int
@@ -22,6 +23,7 @@ struct UniversityClass: Identifiable, Codable, Equatable {
     init(id: UUID = UUID(),
          name: String,
          professor: String,
+         group: String? = nil,
          semester: Int,
          colorHex: String = "#007AFF",
          units: Int = 1,
@@ -30,6 +32,7 @@ struct UniversityClass: Identifiable, Codable, Equatable {
         self.id = id
         self.name = name
         self.professor = professor
+        self.group = group
         self.semester = semester
         self.colorHex = colorHex
         self.units = units

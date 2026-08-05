@@ -50,12 +50,11 @@ struct AllExamsView: View {
     }
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color(.systemGroupedBackground)
-                    .edgesIgnoringSafeArea(.all)
-                
-                VStack(spacing: 0) {
+        ZStack {
+            Color(.systemGroupedBackground)
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack(spacing: 0) {
                     // Stats Bar
                     HStack(spacing: 20) {
                         StatBadge(
@@ -130,17 +129,23 @@ struct AllExamsView: View {
                 }
             }
             .navigationTitle("Exámenes de \(classItem.name)")
+            .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         dismiss()
                     } label: {
-                        HStack {
-                            Image(systemName: "")
-                            Text("")
-                        }
+                        Image(systemName: "chevron.left")
+                            .font(.headline.weight(.semibold))
+                            .foregroundColor(.blue)
+                            .frame(width: 34, height: 34)
+                            .background(
+                                Circle()
+                                    .fill(Color.blue.opacity(0.12))
+                            )
                     }
+                    .buttonStyle(.plain)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -158,9 +163,8 @@ struct AllExamsView: View {
             .sheet(item: $showingEditExam) { exam in
                 ExamFormView(classId: classItem.id, editingExam: exam)
             }
-            .sheet(item: $showingExamDetail) { exam in
-                ExamDetailView(exam: exam)
-            }
+        .sheet(item: $showingExamDetail) { exam in
+            ExamDetailView(exam: exam)
         }
     }
 }
@@ -395,6 +399,8 @@ struct ExamDetailView: View {
     @Environment(\.dismiss) var dismiss
     @State private var showingEdit = false
     @State private var showingDeleteAlert = false
+    @State private var selectedTopic: ExamTopicDetail?
+    @State private var showingAllTopics = false
     
     var isPast: Bool {
         exam.isFinished
@@ -565,34 +571,57 @@ struct ExamDetailView: View {
                     // Topics Section
                     if !exam.topics.isEmpty {
                         VStack(alignment: .leading, spacing: 12) {
-                            Text("Temas a Evaluar")
-                                .font(.headline)
-                                .foregroundColor(.secondary)
+                            HStack {
+                                Text("Temas a Evaluar")
+                                    .font(.headline)
+                                    .foregroundColor(.secondary)
+
+                                Spacer()
+
+                                Button("Ver todos") {
+                                    showingAllTopics = true
+                                }
+                                .font(.caption.weight(.semibold))
+                            }
                             
                             LazyVGrid(columns: [
                                 GridItem(.flexible()),
                                 GridItem(.flexible())
                             ], spacing: 8) {
-                                ForEach(exam.topics, id: \.self) { topic in
-                                    HStack {
-                                        Circle()
-                                            .fill(.blue)
-                                            .frame(width: 6, height: 6)
-                                        
-                                        Text(topic)
-                                            .font(.caption)
-                                            .lineLimit(1)
-                                        
-                                        Spacer()
+                                ForEach(Array(exam.topics.enumerated()), id: \.offset) { index, topic in
+                                    Button {
+                                        selectedTopic = ExamTopicDetail(index: index, text: topic)
+                                    } label: {
+                                        HStack {
+                                            Circle()
+                                                .fill(.blue)
+                                                .frame(width: 6, height: 6)
+
+                                            Text(topic)
+                                                .font(.caption)
+                                                .lineLimit(1)
+
+                                            Spacer()
+
+                                            Image(systemName: "chevron.right")
+                                                .font(.caption2.weight(.semibold))
+                                                .foregroundColor(.blue.opacity(0.7))
+                                        }
                                     }
+                                    .buttonStyle(.plain)
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 8)
                                     .background(
                                         RoundedRectangle(cornerRadius: 8)
                                             .fill(Color.blue.opacity(0.1))
                                     )
+                                    .accessibilityLabel("Tema \(index + 1)")
                                 }
                             }
+
+                            Text("Toca un tema para verlo completo.")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
                         }
                         .padding()
                         .background(
@@ -704,11 +733,90 @@ struct ExamDetailView: View {
             .sheet(isPresented: $showingEdit) {
                 ExamFormView(classId: exam.classId, editingExam: exam)
             }
+            .sheet(item: $selectedTopic) { topic in
+                ExamTopicDetailView(topic: topic)
+            }
+            .sheet(isPresented: $showingAllTopics) {
+                ExamTopicsListView(topics: exam.topics)
+            }
         }
     }
     
     private func deleteExam() {
         examStore.deleteExam(exam)
         dismiss()
+    }
+}
+
+struct ExamTopicDetail: Identifiable {
+    let id = UUID()
+    let index: Int
+    let text: String
+}
+
+struct ExamTopicDetailView: View {
+    let topic: ExamTopicDetail
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                Text(topic.text)
+                    .font(.body)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+            }
+            .background(Color(.systemGroupedBackground))
+            .navigationTitle("Tema \(topic.index + 1)")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Cerrar") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct ExamTopicsListView: View {
+    let topics: [String]
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 12) {
+                    ForEach(Array(topics.enumerated()), id: \.offset) { index, topic in
+                        VStack(alignment: .leading, spacing: 8) {
+                            Label("Tema \(index + 1)", systemImage: "book.closed")
+                                .font(.caption.weight(.semibold))
+                                .foregroundColor(.blue)
+
+                            Text(topic)
+                                .font(.body)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 14)
+                                .fill(Color(.secondarySystemGroupedBackground))
+                        )
+                    }
+                }
+                .padding()
+            }
+            .background(Color(.systemGroupedBackground))
+            .navigationTitle("Temas del Examen")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Cerrar") {
+                        dismiss()
+                    }
+                }
+            }
+        }
     }
 }

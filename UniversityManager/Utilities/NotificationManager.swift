@@ -11,25 +11,64 @@ import SwiftUI
 class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterDelegate { // Añadimos NSObject y Delegate
     static let shared = NotificationManager()
     static let taskNotificationTapped = Notification.Name("taskNotificationTapped")
+    private static let notificationsEnabledKey = "notificationsEnabled"
     @Published var authorized = false
     @Published private(set) var pendingTaskNotificationId: UUID?
     
     override private init() { // Añadimos override por el NSObject
         super.init()
         UNUserNotificationCenter.current().delegate = self // Esto permite notificaciones dentro de la app
-        requestAuthorization()
+        if notificationsEnabled {
+            requestAuthorization()
+        } else {
+            cancelAllNotifications()
+        }
+    }
+
+    var notificationsEnabled: Bool {
+        if UserDefaults.standard.object(forKey: Self.notificationsEnabledKey) == nil {
+            return true
+        }
+
+        return UserDefaults.standard.bool(forKey: Self.notificationsEnabledKey)
     }
     
-    func requestAuthorization() {
+    func requestAuthorization(completion: ((Bool) -> Void)? = nil) {
+        guard notificationsEnabled else {
+            DispatchQueue.main.async {
+                self.authorized = false
+                completion?(false)
+            }
+            return
+        }
+
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, _ in
             DispatchQueue.main.async {
                 self.authorized = success
+                completion?(success)
             }
+        }
+    }
+
+    func setNotificationsEnabled(_ enabled: Bool, completion: ((Bool) -> Void)? = nil) {
+        UserDefaults.standard.set(enabled, forKey: Self.notificationsEnabledKey)
+
+        if enabled {
+            requestAuthorization(completion: completion)
+        } else {
+            authorized = false
+            cancelAllNotifications()
+            completion?(false)
         }
     }
     
     // ESTA FUNCIÓN ES LA QUE HACE QUE APAREZCAN DENTRO DE LA APP
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        guard notificationsEnabled else {
+            completionHandler([])
+            return
+        }
+
         completionHandler([.banner, .sound, .badge])
     }
 
@@ -59,8 +98,8 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
     }
     
     func scheduleTaskNotification(for task: TaskItem) {
-        guard authorized else { return }
         cancelNotification(for: task)
+        guard notificationsEnabled, authorized else { return }
         
         guard !task.isCompleted else { return }
 
@@ -120,8 +159,8 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
     }
     
     func scheduleExamNotification(for exam: Exam) {
-        guard authorized else { return }
         cancelNotification(for: exam)
+        guard notificationsEnabled, authorized else { return }
         guard let hoursBefore = exam.notificationHoursBefore, !exam.isCompleted else { return }
         
         let notificationDate = exam.date.addingTimeInterval(TimeInterval(-hoursBefore * 3600))
