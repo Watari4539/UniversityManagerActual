@@ -83,7 +83,8 @@ class DataPersistence {
         let keys = [
             "savedClasses",
             "savedTasks",
-            "savedExams"
+            "savedExams",
+            "savedSemesterSettings"
         ]
         
         for key in keys {

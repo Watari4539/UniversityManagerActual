@@ -18,6 +18,7 @@ struct ClassFormView: View {
     @State private var selectedColor = Color.blue
     @State private var schedule: [ScheduleSlot] = []
     @State private var showingScheduleEditor = false
+    @State private var didSetDefaultSemester = false
     
     let presetColors: [(name: String, color: Color, hex: String)] = [
         ("", .blue, "#007AFF"),
@@ -41,7 +42,7 @@ struct ClassFormView: View {
                     TextField("Nombre del profesor", text: $professor)
                     
                     Picker("Semestre", selection: $semester) {
-                        ForEach(1...9, id: \.self) { num in
+                        ForEach(classStore.availableSemesters, id: \.self) { num in
                             Text("Semestre \(num)").tag(num)
                         }
                     }
@@ -143,6 +144,11 @@ struct ClassFormView: View {
             }
             .sheet(isPresented: $showingScheduleEditor) {
                 ScheduleEditorView(schedule: $schedule, defaultRoom: room)
+            }
+            .onAppear {
+                guard !didSetDefaultSemester else { return }
+                semester = classStore.currentSemester
+                didSetDefaultSemester = true
             }
         }
     }

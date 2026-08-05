@@ -62,8 +62,8 @@ struct TaskFormView: View {
             Form {
                 if allowsClassSelection {
                     Section(header: Text("Clase")) {
-                        if classStore.classes.isEmpty {
-                            Text("Crea una clase antes de agregar tareas")
+                        if sortedClasses.isEmpty {
+                            Text("Crea una clase en el semestre actual antes de agregar tareas")
                                 .foregroundColor(.secondary)
                         } else {
                             Picker("Asignar a", selection: $selectedClassId) {
@@ -168,7 +168,7 @@ struct TaskFormView: View {
             .navigationTitle(editingTask == nil ? "Nueva Tarea" : "Editar Tarea")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
-                if selectedClassId == nil {
+                if selectedClassId == nil || !sortedClasses.contains(where: { Optional($0.id) == selectedClassId }) {
                     selectedClassId = sortedClasses.first?.id
                 }
             }
@@ -235,7 +235,11 @@ struct TaskFormView: View {
     }
     
     private var sortedClasses: [UniversityClass] {
-        classStore.classes.sorted { $0.name < $1.name }
+        let sourceClasses = allowsClassSelection
+            ? classStore.classes(for: classStore.currentSemester)
+            : classStore.classes
+
+        return sourceClasses.sorted { $0.name < $1.name }
     }
 
     private var reminderDateRange: ClosedRange<Date> {

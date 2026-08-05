@@ -49,15 +49,26 @@ struct UniversityManagerApp: App {
                         openQuickTaskFormIfNeeded()
                     }
                 }
+                .onOpenURL { url in
+                    openQuickTaskForm(from: url)
+                }
                 .sheet(isPresented: $showingQuickTaskForm) {
                     TaskFormView(
-                        classId: classStore.classes.sorted { $0.name < $1.name }.first?.id,
+                        classId: classStore.classes(for: classStore.currentSemester)
+                            .sorted { $0.name < $1.name }
+                            .first?.id,
                         allowsClassSelection: true
                     )
                     .environmentObject(classStore)
                     .environmentObject(taskStore)
                 }
         }
+    }
+    
+    private func openQuickTaskForm(from url: URL) {
+        guard url.scheme == "illuminico" else { return }
+        guard url.host == "quick-task" || url.path == "/quick-task" else { return }
+        showingQuickTaskForm = true
     }
     
     private func openQuickTaskFormIfNeeded() {

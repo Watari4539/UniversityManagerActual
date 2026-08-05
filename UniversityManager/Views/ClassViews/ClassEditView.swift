@@ -59,7 +59,7 @@ struct ClassEditView: View {
                     TextField("Nombre del profesor", text: $professor)
                     
                     Picker("Semestre", selection: $semester) {
-                        ForEach(1...9, id: \.self) { num in
+                        ForEach(classStore.availableSemesters, id: \.self) { num in
                             Text("Semestre \(num)").tag(num)
                         }
                     }
@@ -220,4 +220,3 @@ struct ClassEditView: View {
         dismiss()
     }
 }
-

@@ -57,34 +57,38 @@ struct ClassesView: View {
                             
                             // BOTÓN ESTILO "DASHED CARD"
                             Button(action: { showingNewClass = true }) {
-                                VStack(spacing: 12) {
+                                HStack(spacing: 12) {
                                     Image(systemName: "plus.circle.fill")
-                                        .font(.system(size: 40))
+                                        .font(.system(size: 26))
                                         .foregroundColor(.blue)
                                     
-                                    VStack(spacing: 4) {
+                                    VStack(alignment: .leading, spacing: 2) {
                                         Text("Agregar Clase")
-                                            .font(.headline)
+                                            .font(.subheadline)
+                                            .fontWeight(.semibold)
                                             .foregroundColor(.primary)
                                         
                                         Text("Toca para registrar una materia")
-                                            .font(.subheadline)
+                                            .font(.caption)
                                             .foregroundColor(.secondary)
                                     }
+
+                                    Spacer()
                                 }
+                                .padding(.horizontal, 18)
                                 .frame(maxWidth: .infinity)
-                                .frame(height: 160)
+                                .frame(height: 78)
                                 .background(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [8]))
+                                    RoundedRectangle(cornerRadius: 14)
+                                        .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [7]))
                                         .foregroundColor(.blue.opacity(0.4))
                                 )
                                 .background(
-                                    RoundedRectangle(cornerRadius: 20)
+                                    RoundedRectangle(cornerRadius: 14)
                                         .fill(Color.blue.opacity(0.02))
                                 )
                             }
-                            .padding(.top, 10)
+                            .padding(.top, 4)
 
                             // LISTA DE CLASES FILTRADAS
                             ForEach(filteredClasses) { classItem in
@@ -106,8 +110,7 @@ struct ClassesView: View {
                 ClassFormView()
             }
             .sheet(isPresented: $showingSemesterPicker) {
-                // Pasamos el binding directamente al Store global
-                SemesterPickerSheet(selectedSemester: $classStore.currentSemester)
+                SemesterPickerSheet()
             }
         }
         .id(resetToken)
@@ -115,33 +118,66 @@ struct ClassesView: View {
 }
 
 struct SemesterPickerSheet: View {
-    @Binding var selectedSemester: Int
+    @EnvironmentObject var classStore: ClassStore
+    @EnvironmentObject var taskStore: TaskStore
+    @EnvironmentObject var examStore: ExamStore
+    @EnvironmentObject var gradeStore: GradeStore
     @Environment(\.dismiss) var dismiss
+    @State private var semesterPendingDeletion: Int?
     
     var body: some View {
         NavigationView {
             List {
                 Section(header: Text("Seleccionar Semestre")) {
-                    ForEach(1...9, id: \.self) { semester in
+                    ForEach(classStore.availableSemesters, id: \.self) { semester in
                         Button(action: {
-                            selectedSemester = semester
-                            dismiss()
+                            classStore.setCurrentSemester(semester)
                         }) {
                             HStack {
                                 Text("Semestre \(semester)")
                                     .foregroundColor(.primary)
                                 Spacer()
-                                if selectedSemester == semester {
+                                if classStore.currentSemester == semester {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundColor(.blue)
                                 }
                             }
                         }
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                semesterPendingDeletion = semester
+                            } label: {
+                                Label("Eliminar", systemImage: "trash")
+                            }
+                            .disabled(classStore.availableSemesters.count == 1)
+                        }
+                    }
+                }
+
+                Section {
+                    Button(action: classStore.addSemester) {
+                        Label("Agregar Semestre", systemImage: "plus.circle.fill")
                     }
                 }
             }
             .navigationTitle("Cambiar Semestre")
             .navigationBarTitleDisplayMode(.inline)
+            .alert(
+                "¿Eliminar Semestre \(semesterPendingDeletion ?? 0)?",
+                isPresented: Binding(
+                    get: { semesterPendingDeletion != nil },
+                    set: { if !$0 { semesterPendingDeletion = nil } }
+                )
+            ) {
+                Button("Cancelar", role: .cancel) {
+                    semesterPendingDeletion = nil
+                }
+                Button("Eliminar", role: .destructive) {
+                    deletePendingSemester()
+                }
+            } message: {
+                Text(deleteConfirmationMessage)
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Listo") {
@@ -150,5 +186,30 @@ struct SemesterPickerSheet: View {
                 }
             }
         }
+    }
+
+    private var deleteConfirmationMessage: String {
+        guard let semester = semesterPendingDeletion else { return "" }
+        let classCount = classStore.classes(for: semester).count
+
+        if classCount == 0 {
+            return "Esta acción eliminará el semestre del selector. No se puede deshacer."
+        }
+
+        return "Esta acción eliminará \(classCount) clase(s) de este semestre, junto con sus tareas, exámenes y calificaciones. No se puede deshacer."
+    }
+
+    private func deletePendingSemester() {
+        guard let semester = semesterPendingDeletion else { return }
+        let classesToDelete = classStore.classes(for: semester)
+
+        for classItem in classesToDelete {
+            taskStore.deleteTasksForClass(classItem.id)
+            examStore.deleteExamsForClass(classItem.id)
+            gradeStore.deleteGradesForClass(classItem.id)
+        }
+
+        classStore.deleteSemester(semester)
+        semesterPendingDeletion = nil
     }
 }

@@ -100,7 +100,9 @@ struct AllExamsView: View {
                         ScrollView {
                             LazyVStack(spacing: 12) {
                                 ForEach(filteredExams) { exam in
-                                    ExtendedExamCard(exam: exam)
+                                    ExtendedExamCard(exam: exam) {
+                                        showingExamDetail = exam
+                                    }
                                         .contextMenu {
                                             Button {
                                                 showingEditExam = exam
@@ -115,9 +117,6 @@ struct AllExamsView: View {
                                             } label: {
                                                 Label("Eliminar", systemImage: "trash")
                                             }
-                                        }
-                                        .onTapGesture {
-                                            showingExamDetail = exam
                                         }
                                         .padding(.horizontal)
                                 }
@@ -168,6 +167,7 @@ struct AllExamsView: View {
 
 struct ExtendedExamCard: View {
     let exam: Exam
+    var onTap: () -> Void = { }
     @EnvironmentObject var classStore: ClassStore
     @State private var isPressed = false
     
@@ -327,6 +327,7 @@ struct ExtendedExamCard: View {
             isPressed = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 isPressed = false
+                onTap()
             }
         }
     }

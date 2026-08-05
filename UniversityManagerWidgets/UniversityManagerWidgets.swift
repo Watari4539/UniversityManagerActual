@@ -3,7 +3,6 @@
 //  UniversityManagerWidgets
 //
 
-import AppIntents
 import SwiftUI
 import WidgetKit
 
@@ -11,8 +10,6 @@ private enum WidgetSharedStorage {
     static let appGroupIdentifier = "group.none.UniversityManager"
     static let savedTasksKey = "savedTasks"
     static let savedClassesKey = "savedClasses"
-    static let quickTaskRequestKey = "quickTaskRequest"
-    
     static var defaults: UserDefaults? {
         UserDefaults(suiteName: appGroupIdentifier)
     }
@@ -161,6 +158,14 @@ struct UpcomingTaskWidgetView: View {
                     .fontWeight(.semibold)
                     .lineLimit(2)
                 
+                let taskDescription = task.description.trimmingCharacters(in: .whitespacesAndNewlines)
+                if !taskDescription.isEmpty {
+                    Text(taskDescription)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .lineLimit(2)
+                }
+                
                 Spacer(minLength: 4)
                 
                 HStack {
@@ -204,19 +209,9 @@ struct UpcomingTaskWidget: Widget {
     }
 }
 
-struct OpenQuickTaskFormIntent: AppIntent {
-    static var title: LocalizedStringResource = "Crear tarea"
-    static var openAppWhenRun = true
-    
-    func perform() async throws -> some IntentResult {
-        WidgetSharedStorage.defaults?.set(true, forKey: WidgetSharedStorage.quickTaskRequestKey)
-        return .result()
-    }
-}
-
 struct QuickTaskWidgetView: View {
     var body: some View {
-        Button(intent: OpenQuickTaskFormIntent()) {
+        Link(destination: URL(string: "illuminico://quick-task")!) {
             VStack(spacing: 12) {
                 Image(systemName: "plus.circle.fill")
                     .font(.system(size: 48, weight: .semibold))
@@ -225,7 +220,6 @@ struct QuickTaskWidgetView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .buttonStyle(.plain)
         .foregroundColor(.blue)
         .containerBackground(Color(.secondarySystemBackground), for: .widget)
     }

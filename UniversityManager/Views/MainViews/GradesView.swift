@@ -91,7 +91,7 @@ struct GradesView: View {
             .navigationTitle("Calificaciones")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showingSemesterMenu) {
-                SemesterPickerView(selectedSemester: $classStore.currentSemester)
+                SemesterPickerView()
             }
             .onReceive(gradeStore.$grades) { _ in
                         // Esto fuerza a que la vista se actualice cuando cambien las calificaciones
@@ -209,15 +209,15 @@ struct UnitGradeView: View {
 
 // Picker de semestre (igual que antes)
 struct SemesterPickerView: View {
-    @Binding var selectedSemester: Int
+    @EnvironmentObject var classStore: ClassStore
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(1...9, id: \.self) { semester in
+                ForEach(classStore.availableSemesters, id: \.self) { semester in
                     Button(action: {
-                        selectedSemester = semester
+                        classStore.setCurrentSemester(semester)
                         dismiss()
                     }) {
                         HStack {
@@ -225,7 +225,7 @@ struct SemesterPickerView: View {
                             
                             Spacer()
                             
-                            if selectedSemester == semester {
+                            if classStore.currentSemester == semester {
                                 Image(systemName: "checkmark")
                                     .foregroundColor(.blue)
                             }

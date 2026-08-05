@@ -99,7 +99,9 @@ struct AllTasksView: View {
                         ScrollView {
                             LazyVStack(spacing: 12) {
                                 ForEach(filteredTasks) { task in
-                                    ExtendedTaskCard(task: task)
+                                    ExtendedTaskCard(task: task) {
+                                        showingTaskDetail = task
+                                    }
                                         .contextMenu {
                                             Button {
                                                 if task.isCompleted {
@@ -129,9 +131,6 @@ struct AllTasksView: View {
                                             } label: {
                                                 Label("Eliminar", systemImage: "trash")
                                             }
-                                        }
-                                        .onTapGesture {
-                                            showingTaskDetail = task
                                         }
                                         .padding(.horizontal)
                                 }
@@ -182,6 +181,7 @@ struct AllTasksView: View {
 
 struct ExtendedTaskCard: View {
     let task: TaskItem
+    var onTap: () -> Void = { }
     @EnvironmentObject var classStore: ClassStore
     @State private var isPressed = false
     
@@ -301,6 +301,7 @@ struct ExtendedTaskCard: View {
             isPressed = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 isPressed = false
+                onTap()
             }
         }
     }
@@ -372,5 +373,4 @@ struct StatBadge: View {
         .frame(maxWidth: .infinity)
     }
 }
-
 
