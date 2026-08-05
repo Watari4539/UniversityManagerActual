@@ -116,15 +116,18 @@ class TaskStore: ObservableObject {
     
     private func saveTasks() {
         if let encoded = try? JSONEncoder().encode(tasks) {
-            UserDefaults.standard.set(encoded, forKey: saveKey)
+            SharedAppStorage.set(encoded, forKey: saveKey)
+            SharedAppStorage.reloadWidgets()
         }
     }
     
     private func loadTasks() {
-        guard let data = UserDefaults.standard.data(forKey: saveKey),
+        guard let data = SharedAppStorage.data(forKey: saveKey),
               let decoded = try? JSONDecoder().decode([TaskItem].self, from: data) else {
             return
         }
         tasks = decoded
+        SharedAppStorage.set(data, forKey: saveKey)
+        SharedAppStorage.reloadWidgets()
     }
 }

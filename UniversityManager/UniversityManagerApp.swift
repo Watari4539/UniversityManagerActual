@@ -19,11 +19,13 @@ struct ContentView: View {
 // 2. LUEGO define UniversityManagerApp
 @main
 struct UniversityManagerApp: App {
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject private var classStore = ClassStore()
     @StateObject private var taskStore = TaskStore()
     @StateObject private var examStore = ExamStore()
     @StateObject private var gradeStore = GradeStore()
     @StateObject private var notifications = NotificationManager.shared
+    @State private var showingQuickTaskForm = false
     
     init() {
         configureAppearance()
@@ -40,7 +42,27 @@ struct UniversityManagerApp: App {
                 .onAppear {
                                     // ESTO FORZA EL PERMISO AL ABRIR LA APP
                     NotificationManager.shared.requestAuthorization()
+                    openQuickTaskFormIfNeeded()
                 }
+                .onChange(of: scenePhase) { _, newPhase in
+                    if newPhase == .active {
+                        openQuickTaskFormIfNeeded()
+                    }
+                }
+                .sheet(isPresented: $showingQuickTaskForm) {
+                    TaskFormView(
+                        classId: classStore.classes.sorted { $0.name < $1.name }.first?.id,
+                        allowsClassSelection: true
+                    )
+                    .environmentObject(classStore)
+                    .environmentObject(taskStore)
+                }
+        }
+    }
+    
+    private func openQuickTaskFormIfNeeded() {
+        if SharedAppStorage.consumeQuickTaskRequest() {
+            showingQuickTaskForm = true
         }
     }
     

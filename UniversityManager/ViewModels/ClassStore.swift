@@ -40,18 +40,21 @@ class ClassStore: ObservableObject {
     
     private func saveClasses() {
         if let encoded = try? JSONEncoder().encode(classes) {
-            UserDefaults.standard.set(encoded, forKey: saveKey)
+            SharedAppStorage.set(encoded, forKey: saveKey)
+            SharedAppStorage.reloadWidgets()
         }
     }
     
     private func loadClasses() {
-        guard let data = UserDefaults.standard.data(forKey: saveKey),
+        guard let data = SharedAppStorage.data(forKey: saveKey),
               let decoded = try? JSONDecoder().decode([UniversityClass].self, from: data) else {
             // Datos de ejemplo para pruebas - CORREGIDO: usando UUID explícitos
             //classes = sampleClasses
             return
         }
         classes = decoded
+        SharedAppStorage.set(data, forKey: saveKey)
+        SharedAppStorage.reloadWidgets()
     }
     
     

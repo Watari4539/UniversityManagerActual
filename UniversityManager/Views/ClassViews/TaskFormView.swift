@@ -15,9 +15,11 @@ struct TaskFormView: View {
     }
 
     @EnvironmentObject var taskStore: TaskStore
+    @EnvironmentObject var classStore: ClassStore
     @Environment(\.dismiss) var dismiss
     
-    let classId: UUID
+    let classId: UUID?
+    let allowsClassSelection: Bool
     var editingTask: TaskItem?
     
     @State private var title = ""
@@ -29,12 +31,14 @@ struct TaskFormView: View {
     @State private var reminderMode: ReminderMode = .none
     @State private var isPhysical = false
     @State private var showingDatePicker = false
+    @State private var selectedClassId: UUID?
     
     let notificationOptions = [1, 2, 6, 12, 24, 48]
     
-    init(classId: UUID, editingTask: TaskItem? = nil) {
+    init(classId: UUID? = nil, editingTask: TaskItem? = nil, allowsClassSelection: Bool = false) {
         self.classId = classId
         self.editingTask = editingTask
+        self.allowsClassSelection = allowsClassSelection
         
         if let task = editingTask {
             _title = State(initialValue: task.title)
@@ -45,15 +49,32 @@ struct TaskFormView: View {
             _notificationDate = State(initialValue: task.notificationDate ?? Self.defaultNotificationDate(for: task.dueDate))
             _reminderMode = State(initialValue: Self.initialReminderMode(for: task))
             _isPhysical = State(initialValue: task.isPhysical)
+            _selectedClassId = State(initialValue: task.classId)
         } else {
             let defaultDueDate = Date()
             _notificationDate = State(initialValue: Self.defaultNotificationDate(for: defaultDueDate))
+            _selectedClassId = State(initialValue: classId)
         }
     }
     
     var body: some View {
         NavigationView {
             Form {
+                if allowsClassSelection {
+                    Section(header: Text("Clase")) {
+                        if classStore.classes.isEmpty {
+                            Text("Crea una clase antes de agregar tareas")
+                                .foregroundColor(.secondary)
+                        } else {
+                            Picker("Asignar a", selection: $selectedClassId) {
+                                ForEach(sortedClasses) { classItem in
+                                    Text(classItem.name).tag(Optional(classItem.id))
+                                }
+                            }
+                        }
+                    }
+                }
+                
                 Section(header: Text("Información de la Tarea")) {
                     TextField("Nombre de la tarea", text: $title)
                     
@@ -141,11 +162,16 @@ struct TaskFormView: View {
                             Spacer()
                         }
                     }
-                    .disabled(title.isEmpty)
+                    .disabled(title.isEmpty || selectedClassId == nil)
                 }
             }
             .navigationTitle(editingTask == nil ? "Nueva Tarea" : "Editar Tarea")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                if selectedClassId == nil {
+                    selectedClassId = sortedClasses.first?.id
+                }
+            }
             .onChange(of: dueDate) { _, newDate in
                 guard reminderMode == .custom else { return }
                 notificationDate = clampedReminderDate(notificationDate, dueDate: newDate)
@@ -168,6 +194,8 @@ struct TaskFormView: View {
     }
     
     private func saveTask() {
+        guard let taskClassId = selectedClassId else { return }
+        
         let task: TaskItem
         let selectedNotificationHours = reminderMode == .relative ? notificationHours : nil
         let selectedNotificationDate = reminderMode == .custom ? clampedReminderDate(notificationDate, dueDate: dueDate) : nil
@@ -175,7 +203,7 @@ struct TaskFormView: View {
         if let editingTask = editingTask {
             task = TaskItem(
                 id: editingTask.id,
-                classId: editingTask.classId,
+                classId: taskClassId,
                 title: title,
                 description: description,
                 dueDate: dueDate,
@@ -189,7 +217,7 @@ struct TaskFormView: View {
             taskStore.updateTask(task)
         } else {
             task = TaskItem(
-                classId: classId,
+                classId: taskClassId,
                 title: title,
                 description: description,
                 dueDate: dueDate,
@@ -204,6 +232,10 @@ struct TaskFormView: View {
         NotificationManager.shared.scheduleTaskNotification(for: task)
         
         dismiss()
+    }
+    
+    private var sortedClasses: [UniversityClass] {
+        classStore.classes.sorted { $0.name < $1.name }
     }
 
     private var reminderDateRange: ClosedRange<Date> {
