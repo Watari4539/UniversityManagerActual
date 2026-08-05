@@ -26,6 +26,7 @@ struct UniversityManagerApp: App {
     @StateObject private var gradeStore = GradeStore()
     @StateObject private var notifications = NotificationManager.shared
     @State private var showingQuickTaskForm = false
+    @State private var taskFromNotification: TaskItem?
     
     init() {
         configureAppearance()
@@ -43,14 +44,19 @@ struct UniversityManagerApp: App {
                                     // ESTO FORZA EL PERMISO AL ABRIR LA APP
                     NotificationManager.shared.requestAuthorization()
                     openQuickTaskFormIfNeeded()
+                    openPendingNotificationTaskIfNeeded()
                 }
                 .onChange(of: scenePhase) { _, newPhase in
                     if newPhase == .active {
                         openQuickTaskFormIfNeeded()
+                        openPendingNotificationTaskIfNeeded()
                     }
                 }
                 .onOpenURL { url in
                     openQuickTaskForm(from: url)
+                }
+                .onReceive(NotificationCenter.default.publisher(for: NotificationManager.taskNotificationTapped)) { _ in
+                    openPendingNotificationTaskIfNeeded()
                 }
                 .sheet(isPresented: $showingQuickTaskForm) {
                     TaskFormView(
@@ -61,6 +67,11 @@ struct UniversityManagerApp: App {
                     )
                     .environmentObject(classStore)
                     .environmentObject(taskStore)
+                }
+                .sheet(item: $taskFromNotification) { task in
+                    TaskDetailView(task: task)
+                        .environmentObject(classStore)
+                        .environmentObject(taskStore)
                 }
         }
     }
@@ -75,6 +86,16 @@ struct UniversityManagerApp: App {
         if SharedAppStorage.consumeQuickTaskRequest() {
             showingQuickTaskForm = true
         }
+    }
+
+    private func openPendingNotificationTaskIfNeeded() {
+        guard let taskId = notifications.consumePendingTaskNotificationId(),
+              let task = taskStore.findTask(by: taskId) else {
+            return
+        }
+
+        showingQuickTaskForm = false
+        taskFromNotification = task
     }
     
     private func configureAppearance() {

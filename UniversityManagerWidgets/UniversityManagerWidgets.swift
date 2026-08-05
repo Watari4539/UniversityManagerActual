@@ -118,15 +118,26 @@ struct UpcomingTaskProvider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<UpcomingTaskEntry>) -> Void) {
-        let entry = makeEntry()
-        let nextRefresh = entry.task?.dueDate.addingTimeInterval(60) ?? Date().addingTimeInterval(3600)
-        completion(Timeline(entries: [entry], policy: .after(nextRefresh)))
+        let now = Date()
+        let upcomingTasks = WidgetDataStore.tasks()
+            .filter { !$0.isCompleted && $0.dueDate > now }
+            .sorted { $0.dueDate < $1.dueDate }
+
+        var entries = [makeEntry(at: now)]
+
+        let refreshDates = Array(Set(upcomingTasks.prefix(10).map {
+            $0.dueDate.addingTimeInterval(1)
+        })).sorted()
+
+        entries.append(contentsOf: refreshDates.map { makeEntry(at: $0) })
+
+        let nextRefresh = refreshDates.last?.addingTimeInterval(3600) ?? now.addingTimeInterval(3600)
+        completion(Timeline(entries: entries, policy: .after(nextRefresh)))
     }
     
-    private func makeEntry() -> UpcomingTaskEntry {
-        let now = Date()
+    private func makeEntry(at date: Date = Date()) -> UpcomingTaskEntry {
         let nextTask = WidgetDataStore.tasks()
-            .filter { !$0.isCompleted && $0.dueDate > now }
+            .filter { !$0.isCompleted && $0.dueDate > date }
             .sorted { $0.dueDate < $1.dueDate }
             .first
         let classes = WidgetDataStore.classes()
@@ -134,7 +145,7 @@ struct UpcomingTaskProvider: TimelineProvider {
             classes.first { $0.id == task.classId }?.name
         }
         
-        return UpcomingTaskEntry(date: now, task: nextTask, className: className)
+        return UpcomingTaskEntry(date: date, task: nextTask, className: className)
     }
 }
 

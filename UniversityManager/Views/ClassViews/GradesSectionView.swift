@@ -97,6 +97,8 @@ struct UnitGradeCard: View {
     let unit: Int
     
     @EnvironmentObject var gradeStore: GradeStore
+    @State private var showingEditGrade = false
+    @State private var showingDeleteAlert = false
     
     var grade: Grade? {
             gradeStore.gradeForClassAndUnit(classItem.id, unit: unit)
@@ -138,6 +140,24 @@ struct UnitGradeCard: View {
                             .font(.headline)
                             .fontWeight(.semibold)
                             .foregroundColor(getGradeColor(for: grade.percentage))
+
+                        Menu {
+                            Button {
+                                showingEditGrade = true
+                            } label: {
+                                Label("Editar", systemImage: "pencil")
+                            }
+
+                            Button(role: .destructive) {
+                                showingDeleteAlert = true
+                            } label: {
+                                Label("Eliminar", systemImage: "trash")
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis.circle")
+                                .font(.title3)
+                                .foregroundColor(.secondary)
+                        }
                     }
                     
                     if let notes = grade.notes, !notes.isEmpty {
@@ -167,6 +187,43 @@ struct UnitGradeCard: View {
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color(.secondarySystemGroupedBackground))
         )
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if grade != nil {
+                showingEditGrade = true
+            }
+        }
+        .contextMenu {
+            if grade != nil {
+                Button {
+                    showingEditGrade = true
+                } label: {
+                    Label("Editar", systemImage: "pencil")
+                }
+
+                Button(role: .destructive) {
+                    showingDeleteAlert = true
+                } label: {
+                    Label("Eliminar", systemImage: "trash")
+                }
+            }
+        }
+        .sheet(isPresented: $showingEditGrade) {
+            GradeEditView(classItem: classItem, unit: unit)
+        }
+        .alert("¿Eliminar calificación de Unidad \(unit)?", isPresented: $showingDeleteAlert) {
+            Button("Cancelar", role: .cancel) { }
+            Button("Eliminar", role: .destructive) {
+                deleteGrade()
+            }
+        } message: {
+            Text("Esta acción eliminará la calificación de esta unidad. No se puede deshacer.")
+        }
+    }
+
+    private func deleteGrade() {
+        guard let grade else { return }
+        gradeStore.deleteGrade(grade)
     }
 }
 

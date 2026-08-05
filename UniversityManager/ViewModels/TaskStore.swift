@@ -90,6 +90,10 @@ class TaskStore: ObservableObject {
     func tasksForClass(_ classId: UUID) -> [TaskItem] {
         tasks.filter { $0.classId == classId }
     }
+
+    func findTask(by id: UUID) -> TaskItem? {
+        tasks.first { $0.id == id }
+    }
     
     // MARK: - Notificaciones (Lógica interna)
     
