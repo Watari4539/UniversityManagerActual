@@ -177,6 +177,52 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
         let request = UNNotificationRequest(identifier: exam.id.uuidString, content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request)
     }
+
+    func scheduleReminderNotification(for reminder: AcademicReminder) {
+        cancelNotification(for: reminder)
+        guard notificationsEnabled, authorized else { return }
+        guard !reminder.isCompleted else { return }
+
+        let notificationDate: Date
+        if let customNotificationDate = reminder.notificationDate {
+            notificationDate = customNotificationDate
+        } else if let hoursBefore = reminder.notificationHoursBefore {
+            notificationDate = reminder.eventDate.addingTimeInterval(TimeInterval(-hoursBefore * 3600))
+        } else {
+            return
+        }
+
+        guard notificationDate > Date() else { return }
+
+        let content = UNMutableNotificationContent()
+        content.title = "Recordatorio"
+        content.subtitle = "Importancia: \(reminder.priority.rawValue)"
+        content.body = notificationBody(for: reminder)
+        content.sound = .default
+        content.userInfo = [
+            "type": "reminder",
+            "reminderId": reminder.id.uuidString
+        ]
+
+        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: notificationDate)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+
+        let request = UNNotificationRequest(identifier: reminderNotificationIdentifier(for: reminder), content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request)
+    }
+
+    private func notificationBody(for reminder: AcademicReminder) -> String {
+        if reminder.notificationDate != nil {
+            return "\(reminder.title) será el \(taskDueDateText(reminder.eventDate)) a las \(taskDueTimeText(reminder.eventDate)). Importancia: \(reminder.priority.rawValue)."
+        }
+
+        if let hoursBefore = reminder.notificationHoursBefore {
+            let hourText = hoursBefore == 1 ? "hora" : "horas"
+            return "\(reminder.title) es en \(hoursBefore) \(hourText). Importancia: \(reminder.priority.rawValue)."
+        }
+
+        return "\(reminder.title) será pronto. Importancia: \(reminder.priority.rawValue)."
+    }
     
     func cancelNotification(for task: TaskItem) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [task.id.uuidString])
@@ -184,6 +230,14 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
     
     func cancelNotification(for exam: Exam) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [exam.id.uuidString])
+    }
+
+    func cancelNotification(for reminder: AcademicReminder) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [reminderNotificationIdentifier(for: reminder)])
+    }
+
+    private func reminderNotificationIdentifier(for reminder: AcademicReminder) -> String {
+        "reminder-\(reminder.id.uuidString)"
     }
     
     func cancelAllNotifications() {

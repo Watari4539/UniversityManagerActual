@@ -27,6 +27,14 @@ struct OthersView: View {
                     }
                 }
 
+                Section("Recordatorios") {
+                    NavigationLink {
+                        RemindersView()
+                    } label: {
+                        Label("Recordatorios", systemImage: "bell.badge.fill")
+                    }
+                }
+
                 Section {
                     NavigationLink {
                         SettingsContentView()

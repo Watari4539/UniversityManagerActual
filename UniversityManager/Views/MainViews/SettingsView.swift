@@ -18,6 +18,7 @@ struct SettingsView: View {
 struct SettingsContentView: View {
     @EnvironmentObject var taskStore: TaskStore
     @EnvironmentObject var examStore: ExamStore
+    @EnvironmentObject var reminderStore: ReminderStore
     @AppStorage("appTheme") private var appTheme = "light"
     @AppStorage("notificationsEnabled") private var notificationsEnabled = true
     @State private var showingAbout = false
@@ -87,6 +88,7 @@ struct SettingsContentView: View {
                 guard granted else { return }
                 taskStore.rescheduleNotifications()
                 examStore.rescheduleNotifications()
+                reminderStore.rescheduleNotifications()
             }
         }
         .onChange(of: notificationsEnabled) { _, enabled in
@@ -94,6 +96,7 @@ struct SettingsContentView: View {
                 guard granted else { return }
                 taskStore.rescheduleNotifications()
                 examStore.rescheduleNotifications()
+                reminderStore.rescheduleNotifications()
             }
         }
         .sheet(isPresented: $showingAbout) {

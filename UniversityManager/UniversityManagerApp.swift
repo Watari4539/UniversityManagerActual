@@ -24,6 +24,7 @@ struct UniversityManagerApp: App {
     @StateObject private var taskStore = TaskStore()
     @StateObject private var examStore = ExamStore()
     @StateObject private var gradeStore = GradeStore()
+    @StateObject private var reminderStore = ReminderStore()
     @StateObject private var notifications = NotificationManager.shared
     @State private var showingQuickTaskForm = false
     @State private var taskFromNotification: TaskItem?
@@ -39,6 +40,7 @@ struct UniversityManagerApp: App {
                 .environmentObject(taskStore)
                 .environmentObject(examStore)
                 .environmentObject(gradeStore)
+                .environmentObject(reminderStore)
                 .preferredColorScheme(.light)
                 .onAppear {
                     openQuickTaskFormIfNeeded()
