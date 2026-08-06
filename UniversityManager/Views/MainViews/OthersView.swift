@@ -19,6 +19,14 @@ struct OthersView: View {
                     }
                 }
 
+                Section("Semestre") {
+                    NavigationLink {
+                        SemesterCalendarView()
+                    } label: {
+                        Label("Vista de Semestre", systemImage: "calendar")
+                    }
+                }
+
                 Section {
                     NavigationLink {
                         SettingsContentView()
