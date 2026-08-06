@@ -9,7 +9,10 @@ struct SemesterCalendarView: View {
     @EnvironmentObject var classStore: ClassStore
     @EnvironmentObject var taskStore: TaskStore
     @EnvironmentObject var examStore: ExamStore
+    @EnvironmentObject var studyStore: StudyStore
     @State private var selectedDate: Date?
+    @State private var expandedDate: Date?
+    @Namespace private var dayExpansionNamespace
 
     private var calendar: Calendar {
         var calendar = Calendar.current
@@ -71,6 +74,16 @@ struct SemesterCalendarView: View {
         }
     }
 
+    private var studyMinutesByDay: [Date: Int] {
+        guard let dateRange else { return [:] }
+        return studyStore.minutesByDay(in: dateRange, calendar: calendar)
+    }
+
+    private var totalStudyMinutes: Int {
+        guard let dateRange else { return 0 }
+        return studyStore.totalMinutes(in: dateRange)
+    }
+
     private var dateRange: ClosedRange<Date>? {
         guard let startDate = semesterInfo.startDate,
               let endDate = semesterInfo.endDate else {
@@ -105,6 +118,33 @@ struct SemesterCalendarView: View {
             .map { (date: $0.key, events: $0.value) }
     }
 
+    private var semesterClosingRemaining: (value: String, subtitle: String) {
+        guard let endDate = semesterInfo.endDate else {
+            return ("-", "sin fecha de fin")
+        }
+
+        let today = calendar.startOfDay(for: Date())
+        let closingDay = calendar.startOfDay(for: endDate)
+        let days = calendar.dateComponents([.day], from: today, to: closingDay).day ?? 0
+
+        if days < 0 {
+            return ("Cerrado", "semestre finalizado")
+        }
+
+        if days < 7 {
+            return ("\(days)", days == 1 ? "día restante" : "días restantes")
+        }
+
+        let weeks = days / 7
+        let remainingDays = days % 7
+
+        if remainingDays == 0 {
+            return ("\(weeks)", weeks == 1 ? "semana restante" : "semanas restantes")
+        }
+
+        return ("\(weeks)s \(remainingDays)d", "para el cierre")
+    }
+
     var body: some View {
         Group {
             if semesterInfo.startDate == nil || semesterInfo.endDate == nil {
@@ -122,32 +162,36 @@ struct SemesterCalendarView: View {
                     message: "La fecha de fin debe ser posterior a la fecha de inicio del semestre."
                 )
             } else {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        header
-                        overviewCards
-                        legend
+                ZStack {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 20) {
+                            header
+                            overviewCards
+                            legend
 
-                        ForEach(monthStarts, id: \.self) { month in
-                            SemesterMonthHeatmapView(
-                                monthStart: month,
-                                dateRange: dateRange,
-                                eventsByDay: eventsByDay,
-                                selectedDate: $selectedDate
-                            )
+                            ForEach(monthStarts, id: \.self) { month in
+                                SemesterMonthHeatmapView(
+                                    monthStart: month,
+                                    dateRange: dateRange,
+                                    eventsByDay: eventsByDay,
+                                    studyMinutesByDay: studyMinutesByDay,
+                                    busiestDate: busiestDay?.date,
+                                    selectedDate: $selectedDate,
+                                    expandedDate: expandedDate,
+                                    namespace: dayExpansionNamespace,
+                                    onDayTap: handleDayTap
+                                )
+                            }
                         }
-
-                        selectedDayCard
+                        .padding()
                     }
-                    .padding()
-                }
-                .safeAreaInset(edge: .bottom) {
-                    Color.clear.frame(height: 96)
-                }
-                .background(Color(.systemGroupedBackground).ignoresSafeArea())
-                .onAppear {
-                    if selectedDate == nil {
-                        selectedDate = busiestDay?.date
+                    .safeAreaInset(edge: .bottom) {
+                        Color.clear.frame(height: 96)
+                    }
+                    .background(Color(.systemGroupedBackground).ignoresSafeArea())
+
+                    if let expandedDate {
+                        expandedDayOverlay(for: expandedDate)
                     }
                 }
             }
@@ -184,11 +228,27 @@ struct SemesterCalendarView: View {
             )
 
             SemesterCalendarMetricCard(
-                title: "Día más cargado",
+                title: busiestDay.map { shortDate($0.date) } ?? "-",
                 value: busiestDay.map { "\($0.events.count)" } ?? "-",
-                subtitle: busiestDay.map { shortDate($0.date) } ?? "sin entregas",
+                subtitle: "día más cargado",
                 color: .red,
                 icon: "flame.fill"
+            )
+
+            SemesterCalendarMetricCard(
+                title: "Estudio",
+                value: formatMinutes(totalStudyMinutes),
+                subtitle: "en el semestre",
+                color: .green,
+                icon: "timer"
+            )
+
+            SemesterCalendarMetricCard(
+                title: "Cierre",
+                value: semesterClosingRemaining.value,
+                subtitle: semesterClosingRemaining.subtitle,
+                color: .orange,
+                icon: "calendar.badge.clock"
             )
         }
     }
@@ -218,47 +278,53 @@ struct SemesterCalendarView: View {
         )
     }
 
-    @ViewBuilder
-    private var selectedDayCard: some View {
-        if let selectedDate {
-            let events = eventsByDay[calendar.startOfDay(for: selectedDate)] ?? []
+    private func handleDayTap(_ date: Date) {
+        let day = calendar.startOfDay(for: date)
 
-            VStack(alignment: .leading, spacing: 14) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Detalle del día")
-                            .font(.caption.weight(.semibold))
-                            .foregroundColor(.secondary)
-                            .textCase(.uppercase)
-
-                        Text(formattedDate(selectedDate))
-                            .font(.title3.bold())
-                    }
-
-                    Spacer()
-
-                    Text("\(events.count)")
-                        .font(.title.bold())
-                        .foregroundColor(SemesterHeatmapColor.color(for: events.count))
-                }
-
-                if events.isEmpty {
-                    Text("Sin entregas para este día.")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                } else {
-                    VStack(spacing: 12) {
-                        ForEach(events) { event in
-                            SemesterCalendarEventRow(event: event)
-                        }
-                    }
-                }
+        if selectedDate.map({ calendar.isDate($0, inSameDayAs: day) }) == true {
+            withAnimation(.spring(response: 0.44, dampingFraction: 0.86)) {
+                expandedDate = day
             }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color(.secondarySystemGroupedBackground))
+        } else {
+            withAnimation(.spring(response: 0.28, dampingFraction: 0.82)) {
+                selectedDate = day
+                expandedDate = nil
+            }
+        }
+    }
+
+    private func expandedDayOverlay(for date: Date) -> some View {
+        let day = calendar.startOfDay(for: date)
+        let events = eventsByDay[day] ?? []
+        let studyMinutes = studyMinutesByDay[day, default: 0]
+
+        return ZStack {
+            Color.black.opacity(0.18)
+                .ignoresSafeArea()
+                .transition(.opacity)
+                .onTapGesture {
+                    closeExpandedDay()
+                }
+
+            SemesterCalendarDayDetailCard(
+                date: day,
+                events: events,
+                studyMinutes: studyMinutes,
+                formattedDate: formattedDate(day),
+                formattedStudyMinutes: formatMinutes(studyMinutes),
+                namespace: dayExpansionNamespace,
+                onClose: closeExpandedDay
             )
+            .padding(.horizontal, 18)
+            .frame(maxWidth: 520)
+            .transition(.opacity)
+        }
+        .zIndex(20)
+    }
+
+    private func closeExpandedDay() {
+        withAnimation(.spring(response: 0.34, dampingFraction: 0.88)) {
+            expandedDate = nil
         }
     }
 
@@ -269,13 +335,26 @@ struct SemesterCalendarView: View {
     private func shortDate(_ date: Date) -> String {
         date.formatted(.dateTime.day().month(.abbreviated))
     }
+
+    private func formatMinutes(_ minutes: Int) -> String {
+        if minutes < 60 {
+            return "\(minutes) min"
+        }
+
+        return "\(minutes / 60)h \(minutes % 60)m"
+    }
 }
 
 private struct SemesterMonthHeatmapView: View {
     let monthStart: Date
     let dateRange: ClosedRange<Date>?
     let eventsByDay: [Date: [SemesterCalendarEvent]]
+    let studyMinutesByDay: [Date: Int]
+    let busiestDate: Date?
     @Binding var selectedDate: Date?
+    let expandedDate: Date?
+    let namespace: Namespace.ID
+    let onDayTap: (Date) -> Void
 
     private var calendar: Calendar {
         var calendar = Calendar.current
@@ -336,30 +415,69 @@ private struct SemesterMonthHeatmapView: View {
     private func dayCell(for date: Date) -> some View {
         let day = calendar.startOfDay(for: date)
         let count = eventsByDay[day]?.count ?? 0
+        let studyMinutes = studyMinutesByDay[day, default: 0]
         let isInsideSemester = dateRange?.contains(day) ?? false
         let isSelected = selectedDate.map { calendar.isDate($0, inSameDayAs: day) } ?? false
+        let isExpanded = expandedDate.map { calendar.isDate($0, inSameDayAs: day) } ?? false
+        let isBusiestDay = busiestDate.map { calendar.isDate($0, inSameDayAs: day) } ?? false
 
         return Button {
             guard isInsideSemester else { return }
-            selectedDate = day
+            onDayTap(day)
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(isInsideSemester ? SemesterHeatmapColor.color(for: count) : Color(.systemGray5).opacity(0.45))
+                    .matchedGeometryEffect(
+                        id: day,
+                        in: namespace,
+                        properties: .frame,
+                        isSource: !isExpanded
+                    )
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(isSelected ? Color.blue : Color.clear, lineWidth: 2.5)
+                            .stroke(borderColor(isSelected: isSelected, isBusiestDay: isBusiestDay), lineWidth: isSelected ? 2.5 : (isBusiestDay ? 2.2 : 0))
                     )
 
-                Text("\(calendar.component(.day, from: day))")
-                    .font(.caption.weight(.bold))
-                    .foregroundColor(textColor(for: count, isInsideSemester: isInsideSemester))
+                VStack(spacing: 1) {
+                    Text("\(calendar.component(.day, from: day))")
+                        .font(.caption.weight(.bold))
+
+                    if studyMinutes > 0 {
+                        Text(studyText(studyMinutes))
+                            .font(.system(size: 8, weight: .bold))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
+                    }
+                }
+                .foregroundColor(textColor(for: count, isInsideSemester: isInsideSemester))
+
+                if isBusiestDay && isInsideSemester {
+                    Image(systemName: "star.fill")
+                        .font(.system(size: 12, weight: .black))
+                        .foregroundColor(.yellow)
+                        .shadow(color: .black.opacity(0.28), radius: 1, x: 0, y: 1)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                        .padding(3)
+                }
             }
-            .aspectRatio(1, contentMode: .fit)
+            .aspectRatio(1.05, contentMode: .fit)
         }
         .buttonStyle(.plain)
         .disabled(!isInsideSemester)
         .opacity(isInsideSemester ? 1 : 0.38)
+    }
+
+    private func borderColor(isSelected: Bool, isBusiestDay: Bool) -> Color {
+        if isSelected {
+            return .blue
+        }
+
+        if isBusiestDay {
+            return Color(red: 0.95, green: 0.68, blue: 0.16)
+        }
+
+        return .clear
     }
 
     private var monthTitle: String {
@@ -369,6 +487,14 @@ private struct SemesterMonthHeatmapView: View {
     private func textColor(for count: Int, isInsideSemester: Bool) -> Color {
         guard isInsideSemester else { return .secondary }
         return count >= 3 ? .white : .primary
+    }
+
+    private func studyText(_ minutes: Int) -> String {
+        if minutes < 60 {
+            return "\(minutes)m"
+        }
+
+        return "\(minutes / 60)h"
     }
 }
 
@@ -406,6 +532,97 @@ private struct SemesterCalendarMetricCard: View {
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color(.secondarySystemGroupedBackground))
         )
+    }
+}
+
+private struct SemesterCalendarDayDetailCard: View {
+    let date: Date
+    let events: [SemesterCalendarEvent]
+    let studyMinutes: Int
+    let formattedDate: String
+    let formattedStudyMinutes: String
+    let namespace: Namespace.ID
+    let onClose: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            header
+            studyRow
+            Divider()
+
+            ScrollView {
+                if events.isEmpty {
+                    Text("Sin entregas para este día.")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                } else {
+                    VStack(spacing: 12) {
+                        ForEach(events) { event in
+                            SemesterCalendarEventRow(event: event)
+                        }
+                    }
+                }
+            }
+            .frame(maxHeight: 360)
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(.secondarySystemGroupedBackground))
+                .matchedGeometryEffect(id: Calendar.current.startOfDay(for: date), in: namespace, properties: .frame)
+        )
+        .shadow(color: .black.opacity(0.18), radius: 22, x: 0, y: 12)
+    }
+
+    private var header: some View {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Detalle del día")
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(.secondary)
+                    .textCase(.uppercase)
+
+                Text(formattedDate)
+                    .font(.title3.bold())
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            Spacer()
+
+            HStack(spacing: 12) {
+                Text("\(events.count)")
+                    .font(.title.bold())
+                    .foregroundColor(SemesterHeatmapColor.color(for: events.count))
+
+                Button(action: onClose) {
+                    Image(systemName: "xmark")
+                        .font(.caption.weight(.bold))
+                        .foregroundColor(.secondary)
+                        .frame(width: 30, height: 30)
+                        .background(Circle().fill(Color(.tertiarySystemGroupedBackground)))
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
+    private var studyRow: some View {
+        HStack {
+            Image(systemName: "timer")
+                .foregroundColor(.green)
+                .frame(width: 28)
+
+            Text("Estudio")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+
+            Spacer()
+
+            Text(formattedStudyMinutes)
+                .font(.subheadline.weight(.semibold))
+                .foregroundColor(.green)
+        }
     }
 }
 

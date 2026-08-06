@@ -223,6 +223,28 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
 
         return "\(reminder.title) será pronto. Importancia: \(reminder.priority.rawValue)."
     }
+
+    func scheduleStudyBreakNotification(for session: StudySession) {
+        cancelStudyBreakNotification(for: session)
+        guard notificationsEnabled, authorized, session.isActive else { return }
+
+        let notificationDate = session.startDate.addingTimeInterval(50 * 60)
+        guard notificationDate > Date() else { return }
+
+        let content = UNMutableNotificationContent()
+        content.title = "Hora de descansar"
+        content.body = "Llevas 50 minutos estudiando. Toma un descanso breve para volver con mejor enfoque."
+        content.sound = .default
+        content.userInfo = [
+            "type": "studyBreak",
+            "sessionId": session.id.uuidString
+        ]
+
+        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: notificationDate)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+        let request = UNNotificationRequest(identifier: studyBreakNotificationIdentifier(for: session), content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request)
+    }
     
     func cancelNotification(for task: TaskItem) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [task.id.uuidString])
@@ -236,8 +258,16 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [reminderNotificationIdentifier(for: reminder)])
     }
 
+    func cancelStudyBreakNotification(for session: StudySession) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [studyBreakNotificationIdentifier(for: session)])
+    }
+
     private func reminderNotificationIdentifier(for reminder: AcademicReminder) -> String {
         "reminder-\(reminder.id.uuidString)"
+    }
+
+    private func studyBreakNotificationIdentifier(for session: StudySession) -> String {
+        "study-break-\(session.id.uuidString)"
     }
     
     func cancelAllNotifications() {

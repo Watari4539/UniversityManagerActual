@@ -11,6 +11,7 @@ struct SemesterStatsView: View {
     @EnvironmentObject var taskStore: TaskStore
     @EnvironmentObject var examStore: ExamStore
     @EnvironmentObject var gradeStore: GradeStore
+    @EnvironmentObject var studyStore: StudyStore
     @State private var isRenderingShareImage = false
     @State private var showingShareSheet = false
     @State private var shareItems: [Any] = []
@@ -29,7 +30,9 @@ struct SemesterStatsView: View {
             classes: classStore.classes(for: semester),
             tasks: taskStore.tasks,
             exams: examStore.exams,
-            gradeStore: gradeStore
+            gradeStore: gradeStore,
+            studyStore: studyStore,
+            semesterInfo: semesterInfo
         )
     }
 
@@ -63,6 +66,7 @@ struct SemesterStatsView: View {
                         examSection
                         classSection
                         gradeSection
+                        studySection
                     }
                     .padding()
                 }
@@ -181,6 +185,22 @@ struct SemesterStatsView: View {
                 icon: "chart.bar.fill",
                 color: .orange
             )
+
+            SemesterStatCard(
+                title: "Estudio",
+                value: stats.studyTimeText,
+                subtitle: "tiempo total",
+                icon: "timer",
+                color: .green
+            )
+
+            SemesterStatCard(
+                title: "Sesiones",
+                value: "\(stats.studySessions.count)",
+                subtitle: "de estudio",
+                icon: "play.circle.fill",
+                color: .purple
+            )
         }
     }
 
@@ -270,6 +290,29 @@ struct SemesterStatsView: View {
                         detail: stats.lowestAverage.map { String(format: "%.1f/100", $0.average) } ?? "Sin calificaciones"
                     )
                 }
+            }
+        }
+    }
+
+    private var studySection: some View {
+        SemesterStatsCard(title: "Estudio", icon: "timer", color: .green) {
+            VStack(spacing: 12) {
+                StatLine(title: "Total estudiado", value: stats.studyTimeText)
+                StatLine(title: "Sesiones", value: "\(stats.studySessions.count)")
+
+                Divider()
+
+                HighlightLine(
+                    title: "Materia con más tiempo de estudio",
+                    value: stats.classWithMostStudy?.classItem.name ?? "Sin datos",
+                    detail: stats.classWithMostStudy.map { stats.formatStudyMinutes($0.minutes) } ?? "Sin sesiones con materia"
+                )
+
+                HighlightLine(
+                    title: "Día que más estudiaste",
+                    value: stats.studyDayWithMostMinutes.map { formattedDate($0.date) } ?? "Sin datos",
+                    detail: stats.studyDayWithMostMinutes.map { stats.formatStudyMinutes($0.minutes) } ?? "Sin sesiones"
+                )
             }
         }
     }
@@ -393,6 +436,7 @@ private struct SemesterStatsShareImage: View {
             ShareMetricTile(title: "Materias", value: "\(stats.classes.count)", color: blue)
             ShareMetricTile(title: "Tareas", value: "\(stats.tasks.count)", color: green)
             ShareMetricTile(title: "Exámenes", value: "\(stats.exams.count)", color: purple)
+            ShareMetricTile(title: "Estudio", value: stats.studyTimeText, color: orange)
         }
     }
 
@@ -460,6 +504,14 @@ private struct SemesterStatsShareImage: View {
                 detail: stats.classWithFewestTasks.map { "\($0.taskCount) tareas" } ?? "-",
                 color: orange
             )
+
+            ShareHighlightRow(
+                icon: "timer",
+                title: "Más tiempo de estudio",
+                value: stats.classWithMostStudy?.classItem.name ?? "Sin datos",
+                detail: stats.classWithMostStudy.map { stats.formatStudyMinutes($0.minutes) } ?? "-",
+                color: green
+            )
         }
         .padding(30)
         .background(RoundedRectangle(cornerRadius: 28).fill(.white))
@@ -506,9 +558,13 @@ private struct ShareMetricTile: View {
             Text(value)
                 .font(.system(size: 58, weight: .black, design: .rounded))
                 .foregroundColor(color)
+                .lineLimit(1)
+                .minimumScaleFactor(0.58)
             Text(title)
                 .font(.system(size: 24, weight: .bold))
                 .foregroundColor(Color(red: 0.06, green: 0.08, blue: 0.12))
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
         }
         .padding(26)
         .frame(maxWidth: .infinity, minHeight: 154, alignment: .leading)
@@ -615,13 +671,19 @@ private struct SemesterStats {
     let tasks: [TaskItem]
     let exams: [Exam]
     let gradeAverages: [ClassAverage]
+    let studySessions: [StudySession]
+    let totalStudyMinutes: Int
+    let studyMinutesByClass: [UUID: Int]
+    let studyDayWithMostMinutes: (date: Date, minutes: Int)?
 
     init(
         semester: Int,
         classes: [UniversityClass],
         tasks: [TaskItem],
         exams: [Exam],
-        gradeStore: GradeStore
+        gradeStore: GradeStore,
+        studyStore: StudyStore,
+        semesterInfo: SemesterInfo
     ) {
         self.semester = semester
         self.classes = classes
@@ -632,6 +694,16 @@ private struct SemesterStats {
         self.gradeAverages = classes
             .map { ClassAverage(classItem: $0, average: gradeStore.averageForClass($0.id)) }
             .filter { $0.average > 0 }
+
+        let rawLowerBound = semesterInfo.startDate ?? Date.distantPast
+        let rawUpperBound = semesterInfo.endDate ?? Date()
+        let lowerBound = min(rawLowerBound, rawUpperBound)
+        let upperBound = max(rawLowerBound, rawUpperBound)
+        let range = lowerBound...upperBound
+        self.studySessions = studyStore.sessions(in: range)
+        self.totalStudyMinutes = studyStore.totalMinutes(in: range)
+        self.studyMinutesByClass = studyStore.minutesByClass(in: range)
+        self.studyDayWithMostMinutes = studyStore.studyDayWithMostMinutes(in: range)
     }
 
     var completedTasks: Int {
@@ -712,10 +784,24 @@ private struct SemesterStats {
         gradeAverages.min { $0.average < $1.average }
     }
 
+    var classWithMostStudy: ClassStudyCount? {
+        classes
+            .compactMap { classItem -> ClassStudyCount? in
+                let minutes = studyMinutesByClass[classItem.id, default: 0]
+                guard minutes > 0 else { return nil }
+                return ClassStudyCount(classItem: classItem, minutes: minutes)
+            }
+            .max { $0.minutes < $1.minutes }
+    }
+
     var semesterAverageText: String {
         guard !gradeAverages.isEmpty else { return "-" }
         let average = gradeAverages.reduce(0) { $0 + $1.average } / Double(gradeAverages.count)
         return String(format: "%.1f", average)
+    }
+
+    var studyTimeText: String {
+        formatStudyMinutes(totalStudyMinutes)
     }
 
     var averageTopicsText: String {
@@ -732,6 +818,14 @@ private struct SemesterStats {
         guard !classes.isEmpty else { return "-" }
         return String(format: "%.1f", Double(exams.count) / Double(classes.count))
     }
+
+    func formatStudyMinutes(_ minutes: Int) -> String {
+        if minutes < 60 {
+            return "\(minutes) min"
+        }
+
+        return "\(minutes / 60)h \(minutes % 60)m"
+    }
 }
 
 private struct ClassTaskCount {
@@ -747,6 +841,11 @@ private struct ClassExamCount {
 private struct ClassAverage {
     let classItem: UniversityClass
     let average: Double
+}
+
+private struct ClassStudyCount {
+    let classItem: UniversityClass
+    let minutes: Int
 }
 
 private struct SemesterStatsLockedView: View {

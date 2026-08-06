@@ -35,6 +35,14 @@ struct OthersView: View {
                     }
                 }
 
+                Section("Estoy Estudiando") {
+                    NavigationLink {
+                        StudyView()
+                    } label: {
+                        Label("Sesión de Estudio", systemImage: "timer")
+                    }
+                }
+
                 Section {
                     NavigationLink {
                         SettingsContentView()

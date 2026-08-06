@@ -138,7 +138,7 @@ struct SemesterPickerSheet: View {
                         .padding(.horizontal)
 
                     LazyVGrid(
-                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 3),
+                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 2),
                         spacing: 10
                     ) {
                         ForEach(classStore.semesters) { semester in
