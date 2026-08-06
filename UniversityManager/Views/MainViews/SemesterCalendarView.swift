@@ -114,8 +114,19 @@ struct SemesterCalendarView: View {
     }
 
     private var busiestDay: (date: Date, events: [SemesterCalendarEvent])? {
-        eventsByDay.max { $0.value.count < $1.value.count }
+        eventsByDay.max { lhs, rhs in
+            busiestScore(for: lhs.key, events: lhs.value) < busiestScore(for: rhs.key, events: rhs.value)
+        }
             .map { (date: $0.key, events: $0.value) }
+    }
+
+    private func busiestScore(for date: Date, events: [SemesterCalendarEvent]) -> SemesterDayLoadScore {
+        SemesterDayLoadScore(
+            eventCount: events.count,
+            examCount: events.filter { $0.kind == .exam }.count,
+            priorityScore: events.reduce(0) { $0 + $1.priority.loadWeight },
+            studyMinutes: studyMinutesByDay[calendar.startOfDay(for: date), default: 0]
+        )
     }
 
     private var semesterClosingRemaining: (value: String, subtitle: String) {
@@ -258,12 +269,18 @@ struct SemesterCalendarView: View {
             Text("Intensidad")
                 .font(.headline)
 
-            HStack(spacing: 10) {
-                SemesterCalendarLegendItem(label: "0", count: 0)
-                SemesterCalendarLegendItem(label: "1", count: 1)
-                SemesterCalendarLegendItem(label: "2", count: 2)
-                SemesterCalendarLegendItem(label: "3", count: 3)
-                SemesterCalendarLegendItem(label: "4+", count: 4)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    SemesterCalendarLegendItem(label: "0", count: 0)
+                    SemesterCalendarLegendItem(label: "1", count: 1)
+                    SemesterCalendarLegendItem(label: "2", count: 2)
+                    SemesterCalendarLegendItem(label: "3", count: 3)
+                    SemesterCalendarLegendItem(label: "4", count: 4)
+                    SemesterCalendarLegendItem(label: "5", count: 5)
+                    SemesterCalendarLegendItem(label: "6", count: 6)
+                    SemesterCalendarLegendItem(label: "7", count: 7)
+                    SemesterCalendarLegendItem(label: "8+", count: 8)
+                }
             }
 
             Text("Entre más fuerte el color, más entregas hay ese día.")
@@ -486,7 +503,7 @@ private struct SemesterMonthHeatmapView: View {
 
     private func textColor(for count: Int, isInsideSemester: Bool) -> Color {
         guard isInsideSemester else { return .secondary }
-        return count >= 3 ? .white : .primary
+        return count >= 6 ? .white : .primary
     }
 
     private func studyText(_ minutes: Int) -> String {
@@ -714,11 +731,53 @@ private enum SemesterHeatmapColor {
         case 1:
             return Color(red: 0.31, green: 0.78, blue: 0.42)
         case 2:
-            return Color(red: 0.95, green: 0.78, blue: 0.20)
+            return Color(red: 0.68, green: 0.82, blue: 0.25)
         case 3:
+            return Color(red: 0.95, green: 0.78, blue: 0.20)
+        case 4:
+            return Color(red: 1.0, green: 0.62, blue: 0.16)
+        case 5:
             return Color(red: 0.95, green: 0.45, blue: 0.18)
+        case 6:
+            return Color(red: 0.90, green: 0.25, blue: 0.14)
+        case 7:
+            return Color(red: 0.78, green: 0.08, blue: 0.12)
         default:
-            return Color(red: 0.86, green: 0.12, blue: 0.16)
+            return Color(red: 0.54, green: 0.02, blue: 0.14)
+        }
+    }
+}
+
+private struct SemesterDayLoadScore: Comparable {
+    let eventCount: Int
+    let examCount: Int
+    let priorityScore: Int
+    let studyMinutes: Int
+
+    static func < (lhs: SemesterDayLoadScore, rhs: SemesterDayLoadScore) -> Bool {
+        if lhs.eventCount != rhs.eventCount {
+            return lhs.eventCount < rhs.eventCount
+        }
+
+        if lhs.examCount != rhs.examCount {
+            return lhs.examCount < rhs.examCount
+        }
+
+        if lhs.priorityScore != rhs.priorityScore {
+            return lhs.priorityScore < rhs.priorityScore
+        }
+
+        return lhs.studyMinutes < rhs.studyMinutes
+    }
+}
+
+private extension TaskPriority {
+    var loadWeight: Int {
+        switch self {
+        case .low: return 1
+        case .medium: return 2
+        case .high: return 3
+        case .urgent: return 4
         }
     }
 }

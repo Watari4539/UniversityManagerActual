@@ -6,6 +6,8 @@
 import Foundation
 
 struct StudySession: Identifiable, Codable, Equatable {
+    static let maximumDuration: TimeInterval = 50 * 60
+
     let id: UUID
     var classId: UUID?
     var startDate: Date
@@ -32,5 +34,9 @@ struct StudySession: Identifiable, Codable, Equatable {
 
     func duration(until date: Date = Date()) -> TimeInterval {
         max(0, (endDate ?? date).timeIntervalSince(startDate))
+    }
+
+    func cappedEndDate(for date: Date = Date()) -> Date {
+        min(date, startDate.addingTimeInterval(Self.maximumDuration))
     }
 }

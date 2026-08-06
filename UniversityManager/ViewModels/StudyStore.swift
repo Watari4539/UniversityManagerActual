@@ -14,6 +14,7 @@ class StudyStore: ObservableObject {
 
     init() {
         loadSessions()
+        enforceStudyLimit()
         startTimer()
         rescheduleNotifications()
     }
@@ -35,10 +36,22 @@ class StudyStore: ObservableObject {
         NotificationManager.shared.scheduleStudyBreakNotification(for: session)
     }
 
-    func stopActiveSession() {
+    func stopActiveSession(endDate: Date = Date()) {
         guard let index = sessions.firstIndex(where: { $0.isActive }) else { return }
 
-        sessions[index].endDate = Date()
+        let session = sessions[index]
+        sessions[index].endDate = session.cappedEndDate(for: endDate)
+        saveSessions()
+        NotificationManager.shared.cancelStudyBreakNotification(for: sessions[index])
+    }
+
+    func enforceStudyLimit(now: Date = Date()) {
+        guard let index = sessions.firstIndex(where: { $0.isActive }) else { return }
+        let session = sessions[index]
+
+        guard session.duration(until: now) >= StudySession.maximumDuration else { return }
+
+        sessions[index].endDate = session.startDate.addingTimeInterval(StudySession.maximumDuration)
         saveSessions()
         NotificationManager.shared.cancelStudyBreakNotification(for: sessions[index])
     }
@@ -50,6 +63,7 @@ class StudyStore: ObservableObject {
     }
 
     func rescheduleNotifications() {
+        enforceStudyLimit()
         guard let activeSession else { return }
         NotificationManager.shared.scheduleStudyBreakNotification(for: activeSession)
     }
@@ -120,6 +134,7 @@ class StudyStore: ObservableObject {
     private func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
             DispatchQueue.main.async {
+                self?.enforceStudyLimit()
                 self?.objectWillChange.send()
             }
         }

@@ -54,6 +54,15 @@ struct ClassCard: View {
                                 .fill(pendingTasks > 0 ? .red : .green)
                         )
                     }
+
+                    if classItem.isExtra {
+                        Text("Extra")
+                            .font(.caption2.weight(.bold))
+                            .foregroundColor(.orange)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Capsule().fill(Color.orange.opacity(0.14)))
+                    }
                 }
                 
                 // Class Name - MEJOR TEXTO

@@ -11,11 +11,17 @@ struct GradesView: View {
     }
     
     var semesterAverage: Double {
-        let classAverages = filteredClasses.map { gradeStore.averageForClass($0.id) }
+        let classAverages = filteredClasses
+            .filter { !$0.isExtra }
+            .map { gradeStore.averageForClass($0.id) }
         let validAverages = classAverages.filter { $0 > 0 }
         
         guard !validAverages.isEmpty else { return 0 }
         return validAverages.reduce(0, +) / Double(validAverages.count)
+    }
+
+    var extraClassCount: Int {
+        filteredClasses.filter(\.isExtra).count
     }
     
     var body: some View {
@@ -62,7 +68,7 @@ struct GradesView: View {
                     
                     Spacer()
                     
-                    Text("\(filteredClasses.count) materias")
+                    Text(classCountText)
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -98,6 +104,14 @@ struct GradesView: View {
                         // No necesitamos hacer nada, solo recibir el cambio
             }
         }
+    }
+
+    private var classCountText: String {
+        if extraClassCount == 0 {
+            return "\(filteredClasses.count) materias"
+        }
+
+        return "\(filteredClasses.count) materias, \(extraClassCount) extra"
     }
 }
 
@@ -143,6 +157,15 @@ struct ClassGradesRow: View {
                 
                 Text(classItem.name)
                     .font(.headline)
+
+                if classItem.isExtra {
+                    Text("Extra")
+                        .font(.caption2.weight(.semibold))
+                        .foregroundColor(.orange)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .background(Capsule().fill(Color.orange.opacity(0.14)))
+                }
                 
                 Spacer()
                 

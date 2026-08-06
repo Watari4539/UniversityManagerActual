@@ -784,6 +784,10 @@ private struct SemesterStats {
         gradeAverages.min { $0.average < $1.average }
     }
 
+    var generalGradeAverages: [ClassAverage] {
+        gradeAverages.filter { !$0.classItem.isExtra }
+    }
+
     var classWithMostStudy: ClassStudyCount? {
         classes
             .compactMap { classItem -> ClassStudyCount? in
@@ -795,8 +799,8 @@ private struct SemesterStats {
     }
 
     var semesterAverageText: String {
-        guard !gradeAverages.isEmpty else { return "-" }
-        let average = gradeAverages.reduce(0) { $0 + $1.average } / Double(gradeAverages.count)
+        guard !generalGradeAverages.isEmpty else { return "-" }
+        let average = generalGradeAverages.reduce(0) { $0 + $1.average } / Double(generalGradeAverages.count)
         return String(format: "%.1f", average)
     }
 

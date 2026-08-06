@@ -16,6 +16,7 @@ struct ClassFormView: View {
     @State private var semester = 1
     @State private var units = 1
     @State private var room = ""
+    @State private var isExtra = false
     @State private var selectedColor = Color.blue
     @State private var schedule: [ScheduleSlot] = []
     @State private var showingScheduleEditor = false
@@ -61,6 +62,14 @@ struct ClassFormView: View {
                     TextField("Salón", text: $room)
                         .textInputAutocapitalization(.characters)
                         .autocorrectionDisabled()
+
+                    Toggle("Clase extra", isOn: $isExtra)
+
+                    if isExtra {
+                        Text("Las clases extra pueden tener calificaciones y promedio propio, pero no afectan el promedio general del semestre.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
                 
                 Section(header: Text("Color de la Materia")) {
@@ -201,7 +210,8 @@ struct ClassFormView: View {
             colorHex: hexColor,
             units: units,
             room: room,
-            schedule: schedule
+            schedule: schedule,
+            isExtra: isExtra
         )
         
         classStore.addClass(newClass)

@@ -18,6 +18,7 @@ struct UniversityClass: Identifiable, Codable, Equatable {
     var units: Int
     var room: String
     var schedule: [ScheduleSlot]
+    var isExtra: Bool
     var createdAt: Date
     
     init(id: UUID = UUID(),
@@ -28,7 +29,9 @@ struct UniversityClass: Identifiable, Codable, Equatable {
          colorHex: String = "#007AFF",
          units: Int = 1,
          room: String = "",
-         schedule: [ScheduleSlot] = []) {
+         schedule: [ScheduleSlot] = [],
+         isExtra: Bool = false,
+         createdAt: Date = Date()) {
         self.id = id
         self.name = name
         self.professor = professor
@@ -38,7 +41,52 @@ struct UniversityClass: Identifiable, Codable, Equatable {
         self.units = units
         self.room = room
         self.schedule = schedule
-        self.createdAt = Date()
+        self.isExtra = isExtra
+        self.createdAt = createdAt
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case professor
+        case group
+        case semester
+        case colorHex
+        case units
+        case room
+        case schedule
+        case isExtra
+        case createdAt
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        professor = try container.decode(String.self, forKey: .professor)
+        group = try container.decodeIfPresent(String.self, forKey: .group)
+        semester = try container.decode(Int.self, forKey: .semester)
+        colorHex = try container.decode(String.self, forKey: .colorHex)
+        units = try container.decode(Int.self, forKey: .units)
+        room = try container.decode(String.self, forKey: .room)
+        schedule = try container.decode([ScheduleSlot].self, forKey: .schedule)
+        isExtra = try container.decodeIfPresent(Bool.self, forKey: .isExtra) ?? false
+        createdAt = try container.decodeIfPresent(Date.self, forKey: .createdAt) ?? Date()
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encode(professor, forKey: .professor)
+        try container.encodeIfPresent(group, forKey: .group)
+        try container.encode(semester, forKey: .semester)
+        try container.encode(colorHex, forKey: .colorHex)
+        try container.encode(units, forKey: .units)
+        try container.encode(room, forKey: .room)
+        try container.encode(schedule, forKey: .schedule)
+        try container.encode(isExtra, forKey: .isExtra)
+        try container.encode(createdAt, forKey: .createdAt)
     }
     
     var color: Color {

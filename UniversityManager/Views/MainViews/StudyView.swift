@@ -46,6 +46,7 @@ struct StudyView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onReceive(timer) { date in
             now = date
+            studyStore.enforceStudyLimit(now: date)
         }
     }
 
@@ -125,7 +126,7 @@ struct StudyView: View {
             .background(activeSession == nil ? Color.blue : Color.red)
             .cornerRadius(14)
 
-            Text("A los 50 minutos continuos recibirás una recomendación de descanso.")
+            Text("Cada sesión se detiene automáticamente al llegar a 50 minutos.")
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -171,7 +172,7 @@ struct StudyView: View {
     }
 
     private func elapsedText(for session: StudySession) -> String {
-        let totalSeconds = Int(max(0, now.timeIntervalSince(session.startDate)))
+        let totalSeconds = Int(min(max(0, now.timeIntervalSince(session.startDate)), StudySession.maximumDuration))
         let hours = totalSeconds / 3600
         let minutes = (totalSeconds % 3600) / 60
         let seconds = totalSeconds % 60

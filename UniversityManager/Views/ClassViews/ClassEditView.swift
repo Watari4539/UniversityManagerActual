@@ -21,6 +21,7 @@ struct ClassEditView: View {
     @State private var semester: Int
     @State private var units: Int
     @State private var room: String
+    @State private var isExtra: Bool
     @State private var selectedColor: Color
     @State private var schedule: [ScheduleSlot]
     @State private var showingScheduleEditor = false
@@ -49,6 +50,7 @@ struct ClassEditView: View {
         _semester = State(initialValue: classItem.semester)
         _units = State(initialValue: classItem.units)
         _room = State(initialValue: classItem.room)
+        _isExtra = State(initialValue: classItem.isExtra)
         _selectedColor = State(initialValue: Color(hex: classItem.colorHex))
         _schedule = State(initialValue: classItem.schedule)
     }
@@ -79,6 +81,14 @@ struct ClassEditView: View {
                     TextField("", text: $room)
                         .textInputAutocapitalization(.characters)
                         .autocorrectionDisabled()
+
+                    Toggle("Clase extra", isOn: $isExtra)
+
+                    if isExtra {
+                        Text("Las clases extra pueden tener calificaciones y promedio propio, pero no afectan el promedio general del semestre.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
                 
                 Section(header: Text("Color de la Materia")) {
@@ -244,7 +254,9 @@ struct ClassEditView: View {
             colorHex: hexColor,
             units: units,
             room: room,
-            schedule: schedule
+            schedule: schedule,
+            isExtra: isExtra,
+            createdAt: classItem.createdAt
         )
         
         classStore.updateClass(updatedClass)

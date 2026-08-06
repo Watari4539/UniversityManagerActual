@@ -22,10 +22,6 @@ struct SettingsContentView: View {
     @EnvironmentObject var studyStore: StudyStore
     @AppStorage("appTheme") private var appTheme = "light"
     @AppStorage("notificationsEnabled") private var notificationsEnabled = true
-    @State private var showingAbout = false
-    
-    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "4.2"
-    let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
     
     var body: some View {
         List {
@@ -53,35 +49,6 @@ struct SettingsContentView: View {
                     .foregroundColor(.red)
                 }
             }
-            
-            Section(header: Text("Acerca de")) {
-                HStack {
-                    Text("Versión")
-                    Spacer()
-                    Text("\(appVersion) (\(buildNumber))")
-                        .foregroundColor(.secondary)
-                }
-                
-                Button {
-                    showingAbout = true
-                } label: {
-                    HStack {
-                        Image(systemName: "info.circle")
-                        Text("Acerca de Illuminico")
-                    }
-                }
-                
-                Link(destination: URL(string: "https://github.com")!) {
-                    HStack {
-                        Image(systemName: "chevron.left.forwardslash.chevron.right")
-                        Text("Código fuente")
-                        Spacer()
-                        Image(systemName: "arrow.up.right")
-                            .font(.caption)
-                    }
-                }
-                .foregroundColor(.blue)
-            }
         }
         .navigationTitle("Ajustes")
         .onAppear {
@@ -102,9 +69,6 @@ struct SettingsContentView: View {
                 studyStore.rescheduleNotifications()
             }
         }
-        .sheet(isPresented: $showingAbout) {
-            AboutView()
-        }
     }
 }
 
@@ -123,7 +87,7 @@ struct AboutView: View {
                     
                     // App Name
                     VStack(spacing: 8) {
-                        Text("Illuminico")
+                        Text("school manager")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                         
@@ -162,7 +126,7 @@ struct AboutView: View {
                     
                     // Developer Info
                     VStack(spacing: 12) {
-                        Text("Desarrollado por Adrian Nieto")
+                        Text("Desarrollado por Illuminico")
                             .font(.headline)
                         
                         Text("Para estudiantes universitarios")
