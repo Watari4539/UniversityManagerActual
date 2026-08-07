@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ClassFormView: View {
     @EnvironmentObject var classStore: ClassStore
+    @EnvironmentObject var professorStore: ProfessorStore
     @Environment(\.dismiss) var dismiss
     @State private var className = ""
     @State private var professor = ""
+    @State private var selectedProfessorId: UUID?
     @State private var group = ""
     @State private var semester = 1
     @State private var units = 1
@@ -43,6 +45,28 @@ struct ClassFormView: View {
                     TextField("Nombre de la materia", text: $className)
                     
                     TextField("Nombre del profesor", text: $professor)
+                        .onChange(of: professor) { _, newValue in
+                            clearSelectedProfessorIfNeeded(for: newValue)
+                        }
+
+                    if !professorStore.professors.isEmpty {
+                        Picker("Profesor registrado", selection: $selectedProfessorId) {
+                            Text("Escribir a mano").tag(nil as UUID?)
+
+                            ForEach(professorStore.sortedProfessors()) { profile in
+                                Text(profile.name).tag(Optional(profile.id))
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .onChange(of: selectedProfessorId) { _, newValue in
+                            guard let newValue,
+                                  let profile = professorStore.findProfessor(by: newValue) else {
+                                return
+                            }
+
+                            professor = profile.name
+                        }
+                    }
 
                     TextField("Grupo (opcional)", text: $group)
                         .textInputAutocapitalization(.characters)
@@ -205,6 +229,7 @@ struct ClassFormView: View {
         let newClass = UniversityClass(
             name: className,
             professor: professor,
+            professorId: validSelectedProfessorId,
             group: normalizedGroup,
             semester: semester,
             colorHex: hexColor,
@@ -223,7 +248,31 @@ struct ClassFormView: View {
         return trimmedGroup.isEmpty ? nil : trimmedGroup
     }
 
+    private var validSelectedProfessorId: UUID? {
+        guard let selectedProfessorId,
+              professorStore.findProfessor(by: selectedProfessorId) != nil else {
+            return nil
+        }
+
+        return selectedProfessorId
+    }
+
     private func sanitizedGroup(_ value: String) -> String {
         String(value.uppercased().filter { $0.isLetter || $0.isNumber }.prefix(6))
+    }
+
+    private func clearSelectedProfessorIfNeeded(for value: String) {
+        guard let selectedProfessorId else {
+            return
+        }
+
+        guard let profile = professorStore.findProfessor(by: selectedProfessorId) else {
+            self.selectedProfessorId = nil
+            return
+        }
+
+        if profile.name != value {
+            self.selectedProfessorId = nil
+        }
     }
 }

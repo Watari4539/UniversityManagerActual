@@ -20,6 +20,7 @@ struct SettingsContentView: View {
     @EnvironmentObject var examStore: ExamStore
     @EnvironmentObject var reminderStore: ReminderStore
     @EnvironmentObject var studyStore: StudyStore
+    @EnvironmentObject var navigationBarStore: NavigationBarStore
     @AppStorage("appTheme") private var appTheme = "light"
     @AppStorage("notificationsEnabled") private var notificationsEnabled = true
     
@@ -27,6 +28,14 @@ struct SettingsContentView: View {
         List {
             Section(header: Text("Notificaciones")) {
                 Toggle("Activar notificaciones", isOn: $notificationsEnabled)
+            }
+
+            Section(header: Text("Navegación")) {
+                NavigationLink {
+                    NavigationCustomizationView()
+                } label: {
+                    Label("Personalizar barra de navegación", systemImage: "slider.horizontal.3")
+                }
             }
             
             Section(header: Text("Datos")) {
@@ -69,6 +78,78 @@ struct SettingsContentView: View {
                 studyStore.rescheduleNotifications()
             }
         }
+    }
+}
+
+struct NavigationCustomizationView: View {
+    @EnvironmentObject var navigationBarStore: NavigationBarStore
+    @State private var editMode: EditMode = .active
+    private let tabBarClearance: CGFloat = 96
+
+    var body: some View {
+        List {
+            Section {
+                ForEach(Array(navigationBarStore.orderedItems.enumerated()), id: \.element) { index, item in
+                    VStack(alignment: .leading, spacing: 8) {
+                        if index == 0 {
+                            Text("Barra inferior")
+                                .font(.caption.weight(.semibold))
+                                .foregroundColor(.secondary)
+                                .textCase(.uppercase)
+                        } else if index == NavigationBarStore.bottomLimit {
+                            Text("Más")
+                                .font(.caption.weight(.semibold))
+                                .foregroundColor(.secondary)
+                                .textCase(.uppercase)
+                                .padding(.top, 8)
+                        }
+
+                        NavigationCustomizationRow(destination: item)
+                    }
+                }
+                .onMove { source, destination in
+                    navigationBarStore.moveItems(from: source, to: destination)
+                }
+            } footer: {
+                Text("Arrastra con el control de la derecha. Los primeros cinco quedan en la barra inferior; el resto aparece dentro de Más.")
+            }
+
+            Section {
+                Button("Restablecer orden predeterminado") {
+                    withAnimation {
+                        navigationBarStore.resetToDefault()
+                    }
+                }
+            }
+        }
+        .navigationTitle("Personalizar")
+        .navigationBarTitleDisplayMode(.inline)
+        .environment(\.editMode, $editMode)
+        .safeAreaInset(edge: .bottom) {
+            Color.clear.frame(height: tabBarClearance)
+        }
+    }
+}
+
+private struct NavigationCustomizationRow: View {
+    let destination: AppNavigationDestination
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "line.3.horizontal")
+                .font(.subheadline.weight(.semibold))
+                .foregroundColor(.secondary)
+
+            Image(systemName: destination.icon)
+                .foregroundColor(.blue)
+                .frame(width: 24)
+
+            Text(destination.title)
+                .font(.body)
+
+            Spacer()
+        }
+        .contentShape(Rectangle())
     }
 }
 

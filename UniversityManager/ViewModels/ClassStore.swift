@@ -37,6 +37,11 @@ class ClassStore: ObservableObject {
             saveSemesterSettings()
         }
     }
+    @Published private var statsSnapshots: [Int: SemesterStatsSnapshot] = [:] {
+        didSet {
+            saveSemesterSettings()
+        }
+    }
     
     private let saveKey = "savedClasses"
     private let semesterSettingsKey = "savedSemesterSettings"
@@ -106,6 +111,7 @@ class ClassStore: ObservableObject {
         availableSemesters.removeAll { $0 == semester }
         semesterDateRanges.removeValue(forKey: semester)
         reviewedStatsSemesters.remove(semester)
+        statsSnapshots.removeValue(forKey: semester)
         classes.removeAll { $0.semester == semester }
 
         if currentSemester == semester {
@@ -153,6 +159,15 @@ class ClassStore: ObservableObject {
         reviewedStatsSemesters.insert(semester)
     }
 
+    func statsSnapshot(for semester: Int) -> SemesterStatsSnapshot? {
+        statsSnapshots[semester]
+    }
+
+    func saveStatsSnapshot(_ snapshot: SemesterStatsSnapshot) {
+        statsSnapshots[snapshot.semester] = snapshot
+        reviewedStatsSemesters.insert(snapshot.semester)
+    }
+
     func semesterEndHasPassed(_ semester: Int, now: Date = Date()) -> Bool {
         guard let endDate = semesterDateRanges[semester]?.endDate else { return false }
         let startOfNextDay = Calendar.current.date(
@@ -189,16 +204,18 @@ class ClassStore: ObservableObject {
             availableSemesters: availableSemesters,
             currentSemester: currentSemester,
             semesterDateRanges: semesterDateRanges,
-            reviewedStatsSemesters: Array(reviewedStatsSemesters)
+            reviewedStatsSemesters: Array(reviewedStatsSemesters),
+            statsSnapshots: statsSnapshots
         )
 
         if let encoded = try? JSONEncoder().encode(settings) {
-            UserDefaults.standard.set(encoded, forKey: semesterSettingsKey)
+            SharedAppStorage.set(encoded, forKey: semesterSettingsKey)
+            SharedAppStorage.reloadWidgets()
         }
     }
 
     private func loadSemesterSettings() {
-        guard let data = UserDefaults.standard.data(forKey: semesterSettingsKey),
+        guard let data = SharedAppStorage.data(forKey: semesterSettingsKey),
               let settings = try? JSONDecoder().decode(SemesterSettings.self, from: data) else {
             return
         }
@@ -207,6 +224,7 @@ class ClassStore: ObservableObject {
         availableSemesters = Array(Set(semesters)).sorted()
         semesterDateRanges = settings.semesterDateRanges ?? [:]
         reviewedStatsSemesters = Set(settings.reviewedStatsSemesters ?? [])
+        statsSnapshots = settings.statsSnapshots ?? [:]
         currentSemester = availableSemesters.contains(settings.currentSemester)
             ? settings.currentSemester
             : (availableSemesters.first ?? 1)
@@ -238,4 +256,5 @@ private struct SemesterSettings: Codable {
     var currentSemester: Int
     var semesterDateRanges: [Int: SemesterDateRange]?
     var reviewedStatsSemesters: [Int]?
+    var statsSnapshots: [Int: SemesterStatsSnapshot]?
 }

@@ -4,12 +4,12 @@ import SwiftUI
 
 // 1. PRIMERO define ContentView FUERA del struct App
 struct ContentView: View {
-    @State private var selectedTab = 2
+    @State private var selectedDestination: AppNavigationDestination? = .classes
     @State private var classesResetToken = UUID()
     
     var body: some View {
         CustomTabBar(
-            selectedTab: $selectedTab,
+            selectedDestination: $selectedDestination,
             classesResetToken: $classesResetToken
         )
             .accentColor(.blue)
@@ -26,6 +26,8 @@ struct UniversityManagerApp: App {
     @StateObject private var gradeStore = GradeStore()
     @StateObject private var reminderStore = ReminderStore()
     @StateObject private var studyStore = StudyStore()
+    @StateObject private var professorStore = ProfessorStore()
+    @StateObject private var navigationBarStore = NavigationBarStore()
     @StateObject private var notifications = NotificationManager.shared
     @State private var showingQuickTaskForm = false
     @State private var taskFromNotification: TaskItem?
@@ -43,6 +45,8 @@ struct UniversityManagerApp: App {
                 .environmentObject(gradeStore)
                 .environmentObject(reminderStore)
                 .environmentObject(studyStore)
+                .environmentObject(professorStore)
+                .environmentObject(navigationBarStore)
                 .preferredColorScheme(.light)
                 .onAppear {
                     openQuickTaskFormIfNeeded()

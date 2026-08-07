@@ -13,6 +13,8 @@ enum SharedAppStorage {
     static let appGroupIdentifier = "group.none.UniversityManager"
     static let savedTasksKey = "savedTasks"
     static let savedClassesKey = "savedClasses"
+    static let savedExamsKey = "savedExams"
+    static let savedSemesterSettingsKey = "savedSemesterSettings"
     static let quickTaskRequestKey = "quickTaskRequest"
     
     private static var appGroupDefaults: UserDefaults? {

@@ -10,6 +10,7 @@ import SwiftUI
 struct ClassEditView: View {
     let classItem: UniversityClass
     @EnvironmentObject var classStore: ClassStore
+    @EnvironmentObject var professorStore: ProfessorStore
     @EnvironmentObject var taskStore: TaskStore
     @EnvironmentObject var examStore: ExamStore
     @EnvironmentObject var gradeStore: GradeStore
@@ -17,6 +18,7 @@ struct ClassEditView: View {
     
     @State private var className: String
     @State private var professor: String
+    @State private var selectedProfessorId: UUID?
     @State private var group: String
     @State private var semester: Int
     @State private var units: Int
@@ -46,6 +48,7 @@ struct ClassEditView: View {
         self.classItem = classItem
         _className = State(initialValue: classItem.name)
         _professor = State(initialValue: classItem.professor)
+        _selectedProfessorId = State(initialValue: classItem.professorId)
         _group = State(initialValue: classItem.group ?? "")
         _semester = State(initialValue: classItem.semester)
         _units = State(initialValue: classItem.units)
@@ -62,6 +65,28 @@ struct ClassEditView: View {
                     TextField("Nombre de la materia", text: $className)
                     
                     TextField("Nombre del profesor", text: $professor)
+                        .onChange(of: professor) { _, newValue in
+                            clearSelectedProfessorIfNeeded(for: newValue)
+                        }
+
+                    if !professorStore.professors.isEmpty {
+                        Picker("Profesor registrado", selection: $selectedProfessorId) {
+                            Text("Escribir a mano").tag(nil as UUID?)
+
+                            ForEach(professorStore.sortedProfessors()) { profile in
+                                Text(profile.name).tag(Optional(profile.id))
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .onChange(of: selectedProfessorId) { _, newValue in
+                            guard let newValue,
+                                  let profile = professorStore.findProfessor(by: newValue) else {
+                                return
+                            }
+
+                            professor = profile.name
+                        }
+                    }
 
                     TextField("Grupo (opcional)", text: $group)
                         .textInputAutocapitalization(.characters)
@@ -249,6 +274,7 @@ struct ClassEditView: View {
             id: classItem.id,
             name: className,
             professor: professor,
+            professorId: validSelectedProfessorId,
             group: normalizedGroup,
             semester: semester,
             colorHex: hexColor,
@@ -276,7 +302,31 @@ struct ClassEditView: View {
         return trimmedGroup.isEmpty ? nil : trimmedGroup
     }
 
+    private var validSelectedProfessorId: UUID? {
+        guard let selectedProfessorId,
+              professorStore.findProfessor(by: selectedProfessorId) != nil else {
+            return nil
+        }
+
+        return selectedProfessorId
+    }
+
     private func sanitizedGroup(_ value: String) -> String {
         String(value.uppercased().filter { $0.isLetter || $0.isNumber }.prefix(6))
+    }
+
+    private func clearSelectedProfessorIfNeeded(for value: String) {
+        guard let selectedProfessorId else {
+            return
+        }
+
+        guard let profile = professorStore.findProfessor(by: selectedProfessorId) else {
+            self.selectedProfessorId = nil
+            return
+        }
+
+        if profile.name != value {
+            self.selectedProfessorId = nil
+        }
     }
 }

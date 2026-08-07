@@ -70,7 +70,7 @@ class DataPersistence {
         }
         
         do {
-            let importData = try decoder.decode(ImportData.self, from: data)
+            _ = try decoder.decode(ImportData.self, from: data)
             
             return true
         } catch {
@@ -84,7 +84,9 @@ class DataPersistence {
             "savedClasses",
             "savedTasks",
             "savedExams",
-            "savedSemesterSettings"
+            "savedSemesterSettings",
+            "savedProfessorProfiles",
+            "savedNavigationBarItems"
         ]
         
         for key in keys {
@@ -98,9 +100,11 @@ class DataPersistence {
     
     func createBackup() {
         let backup = [
-            "classes": defaults.data(forKey: "savedClasses"),
-            "tasks": defaults.data(forKey: "savedTasks"),
-            "exams": defaults.data(forKey: "savedExams"),
+            "classes": defaults.data(forKey: "savedClasses") as Any,
+            "tasks": defaults.data(forKey: "savedTasks") as Any,
+            "exams": defaults.data(forKey: "savedExams") as Any,
+            "professors": defaults.data(forKey: "savedProfessorProfiles") as Any,
+            "navigationBar": defaults.data(forKey: "savedNavigationBarItems") as Any,
             "backupDate": Date()
         ] as [String: Any]
         
@@ -120,6 +124,14 @@ class DataPersistence {
         
         if let examsData = backup["exams"] as? Data {
             defaults.set(examsData, forKey: "savedExams")
+        }
+
+        if let professorsData = backup["professors"] as? Data {
+            defaults.set(professorsData, forKey: "savedProfessorProfiles")
+        }
+
+        if let navigationBarData = backup["navigationBar"] as? Data {
+            defaults.set(navigationBarData, forKey: "savedNavigationBarItems")
         }
         
         return true

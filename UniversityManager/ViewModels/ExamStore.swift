@@ -115,15 +115,18 @@ class ExamStore: ObservableObject {
     
     private func saveExams() {
         if let encoded = try? JSONEncoder().encode(exams) {
-            UserDefaults.standard.set(encoded, forKey: saveKey)
+            SharedAppStorage.set(encoded, forKey: saveKey)
+            SharedAppStorage.reloadWidgets()
         }
     }
     
     private func loadExams() {
-        guard let data = UserDefaults.standard.data(forKey: saveKey),
+        guard let data = SharedAppStorage.data(forKey: saveKey),
               let decoded = try? JSONDecoder().decode([Exam].self, from: data) else {
             return
         }
         exams = decoded
+        SharedAppStorage.set(data, forKey: saveKey)
+        SharedAppStorage.reloadWidgets()
     }
 }

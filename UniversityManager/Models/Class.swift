@@ -12,6 +12,7 @@ struct UniversityClass: Identifiable, Codable, Equatable {
     let id: UUID
     var name: String
     var professor: String
+    var professorId: UUID?
     var group: String?
     var semester: Int
     var colorHex: String
@@ -24,6 +25,7 @@ struct UniversityClass: Identifiable, Codable, Equatable {
     init(id: UUID = UUID(),
          name: String,
          professor: String,
+         professorId: UUID? = nil,
          group: String? = nil,
          semester: Int,
          colorHex: String = "#007AFF",
@@ -35,6 +37,7 @@ struct UniversityClass: Identifiable, Codable, Equatable {
         self.id = id
         self.name = name
         self.professor = professor
+        self.professorId = professorId
         self.group = group
         self.semester = semester
         self.colorHex = colorHex
@@ -49,6 +52,7 @@ struct UniversityClass: Identifiable, Codable, Equatable {
         case id
         case name
         case professor
+        case professorId
         case group
         case semester
         case colorHex
@@ -64,6 +68,7 @@ struct UniversityClass: Identifiable, Codable, Equatable {
         id = try container.decode(UUID.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
         professor = try container.decode(String.self, forKey: .professor)
+        professorId = try container.decodeIfPresent(UUID.self, forKey: .professorId)
         group = try container.decodeIfPresent(String.self, forKey: .group)
         semester = try container.decode(Int.self, forKey: .semester)
         colorHex = try container.decode(String.self, forKey: .colorHex)
@@ -79,6 +84,7 @@ struct UniversityClass: Identifiable, Codable, Equatable {
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(professor, forKey: .professor)
+        try container.encodeIfPresent(professorId, forKey: .professorId)
         try container.encodeIfPresent(group, forKey: .group)
         try container.encode(semester, forKey: .semester)
         try container.encode(colorHex, forKey: .colorHex)

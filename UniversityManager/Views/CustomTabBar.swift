@@ -2,46 +2,39 @@
 //  CustomTabBar.swift
 //  UniversityManager
 //
-//  Created by Adrián Nieto on 12/01/26.
-//
 
 import SwiftUI
 
 struct CustomTabBar: View {
-    @Binding var selectedTab: Int
+    @EnvironmentObject var navigationBarStore: NavigationBarStore
+    @Binding var selectedDestination: AppNavigationDestination?
     @Binding var classesResetToken: UUID
-    
+
     var body: some View {
         ZStack(alignment: .bottom) {
             Group {
-                switch selectedTab {
-                case 0:
-                    TasksView()
-                case 1:
-                    ExamsView()
-                case 2:
-                    ClassesView(resetToken: classesResetToken)
-                case 3:
-                    ScheduleView()
-                case 4:
-                    GradesView()
-                case 5:
+                if let selectedDestination {
+                    DestinationContentView(
+                        destination: selectedDestination,
+                        classesResetToken: classesResetToken,
+                        embedInNavigation: true
+                    )
+                } else {
                     OthersView()
-                default:
-                    ClassesView(resetToken: classesResetToken)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
-            // Custom Tab Bar
+
             HStack(spacing: 0) {
-                ForEach(0..<6) { index in
+                ForEach(navigationBarStore.bottomItems) { destination in
                     TabBarButton(
-                        index: index,
-                        selectedTab: $selectedTab,
+                        destination: destination,
+                        selectedDestination: $selectedDestination,
                         classesResetToken: $classesResetToken
                     )
                 }
+
+                MoreTabBarButton(selectedDestination: $selectedDestination)
             }
             .frame(height: 80)
             .background(
@@ -59,56 +52,139 @@ struct CustomTabBar: View {
     }
 }
 
-struct TabBarButton: View {
-    let index: Int
-    @Binding var selectedTab: Int
-    @Binding var classesResetToken: UUID
-    
-    private var iconName: String {
-        switch index {
-        case 0: return "checklist"
-        case 1: return "doc.text"
-        case 2: return "person.3"
-        case 3: return "calendar"
-        case 4: return "chart.bar"
-        case 5: return "ellipsis.circle"
-        default: return "circle"
-        }
-    }
-    
-    private var label: String {
-        switch index {
-        case 0: return "Tareas"
-        case 1: return "Exámenes"
-        case 2: return "Clases"
-        case 3: return "Horario"
-        case 4: return "Notas"
-        case 5: return "Otros"
-        default: return ""
-        }
-    }
-    
+struct DestinationContentView: View {
+    let destination: AppNavigationDestination
+    let classesResetToken: UUID
+    var embedInNavigation = true
+
     var body: some View {
-        Button(action: {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                if selectedTab == index, index == 2 {
-                    classesResetToken = UUID()
-                } else {
-                    selectedTab = index
-                }
+        if embedInNavigation && destination.needsNavigationWrapper {
+            NavigationStack {
+                content
             }
-        }) {
+        } else {
+            content
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch destination {
+        case .tasks:
+            TasksView()
+        case .exams:
+            ExamsView()
+        case .classes:
+            ClassesView(resetToken: classesResetToken)
+        case .schedule:
+            ScheduleView()
+        case .grades:
+            GradesView()
+        case .study:
+            StudyView()
+        case .professors:
+            ProfessorsView()
+        case .semesterStats:
+            SemesterStatsView()
+        case .reminders:
+            RemindersView()
+        case .semesterCalendar:
+            SemesterCalendarView()
+        }
+    }
+}
+
+struct TabBarButton: View {
+    let destination: AppNavigationDestination
+    @EnvironmentObject var classStore: ClassStore
+    @Binding var selectedDestination: AppNavigationDestination?
+    @Binding var classesResetToken: UUID
+    @State private var showingStatsFreezeAlert = false
+
+    private var isSelected: Bool {
+        selectedDestination == destination
+    }
+
+    var body: some View {
+        Button {
+            selectDestination()
+        } label: {
             VStack(spacing: 6) {
-                Image(systemName: iconName)
+                Image(systemName: destination.icon)
                     .font(.system(size: 22, weight: .medium))
-                    .symbolVariant(selectedTab == index ? .fill : .none)
-                    .scaleEffect(selectedTab == index ? 1.1 : 1.0)
-                
-                Text(label)
-                    .font(.system(size: 10, weight: selectedTab == index ? .semibold : .regular))
+                    .symbolVariant(isSelected ? .fill : .none)
+                    .scaleEffect(isSelected ? 1.1 : 1.0)
+
+                Text(destination.tabTitle)
+                    .font(.system(size: 10, weight: isSelected ? .semibold : .regular))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.72)
             }
             .frame(maxWidth: .infinity)
-            .foregroundColor(selectedTab == index ? .blue : .gray)
+            .foregroundColor(isSelected ? .blue : .gray)
+            .padding(.top, 10)
+        }
+        .alert("Cerrar estadísticas del semestre", isPresented: $showingStatsFreezeAlert) {
+            Button("Cancelar", role: .cancel) {}
+            Button("Aceptar") {
+                commitSelection()
+            }
+        } message: {
+            Text("Una vez vistas, estas estadísticas quedarán guardadas y ya no cambiarán aunque agregues tareas, exámenes, calificaciones o sesiones de estudio. También se bloqueará la fecha final del semestre. Asegúrate de que no falte nada antes de continuar.")
+        }
+    }
+
+    private func selectDestination() {
+        if destination == .semesterStats && needsStatsFreezeConfirmation {
+            showingStatsFreezeAlert = true
+        } else {
+            commitSelection()
+        }
+    }
+
+    private func commitSelection() {
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+            if isSelected, destination == .classes {
+                classesResetToken = UUID()
+            } else {
+                selectedDestination = destination
+            }
+        }
+    }
+
+    private var needsStatsFreezeConfirmation: Bool {
+        let semester = classStore.currentSemester
+        return classStore.semesterInfo(for: semester).endDate != nil
+            && classStore.semesterEndHasPassed(semester)
+            && classStore.statsSnapshot(for: semester) == nil
+            && !classStore.hasReviewedStats(for: semester)
+    }
+}
+
+struct MoreTabBarButton: View {
+    @Binding var selectedDestination: AppNavigationDestination?
+
+    private var isSelected: Bool {
+        selectedDestination == nil
+    }
+
+    var body: some View {
+        Button {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                selectedDestination = nil
+            }
+        } label: {
+            VStack(spacing: 6) {
+                Image(systemName: "ellipsis.circle")
+                    .font(.system(size: 22, weight: .medium))
+                    .symbolVariant(isSelected ? .fill : .none)
+                    .scaleEffect(isSelected ? 1.1 : 1.0)
+
+                Text("Más")
+                    .font(.system(size: 10, weight: isSelected ? .semibold : .regular))
+            }
+            .frame(maxWidth: .infinity)
+            .foregroundColor(isSelected ? .blue : .gray)
             .padding(.top, 10)
         }
     }
@@ -116,11 +192,11 @@ struct TabBarButton: View {
 
 struct VisualEffectView: UIViewRepresentable {
     var effect: UIVisualEffect?
-    
+
     func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView {
         UIVisualEffectView(effect: effect)
     }
-    
+
     func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) {
         uiView.effect = effect
     }

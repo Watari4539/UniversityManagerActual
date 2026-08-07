@@ -24,7 +24,7 @@ struct SemesterStatsView: View {
         classStore.semesterInfo(for: semester)
     }
 
-    private var stats: SemesterStats {
+    private var liveStats: SemesterStats {
         SemesterStats(
             semester: semester,
             classes: classStore.classes(for: semester),
@@ -34,6 +34,14 @@ struct SemesterStatsView: View {
             studyStore: studyStore,
             semesterInfo: semesterInfo
         )
+    }
+
+    private var stats: SemesterStats {
+        if let snapshot = classStore.statsSnapshot(for: semester) {
+            return SemesterStats(snapshot: snapshot)
+        }
+
+        return liveStats
     }
 
     var body: some View {
@@ -75,7 +83,7 @@ struct SemesterStatsView: View {
                 }
                 .background(Color(.systemGroupedBackground).ignoresSafeArea())
                 .onAppear {
-                    classStore.markStatsReviewed(for: semester)
+                    freezeStatsIfNeeded()
                 }
             }
         }
@@ -104,6 +112,17 @@ struct SemesterStatsView: View {
 
     private var canExportStats: Bool {
         semesterInfo.endDate != nil && classStore.semesterEndHasPassed(semester)
+    }
+
+    private func freezeStatsIfNeeded() {
+        guard classStore.statsSnapshot(for: semester) == nil else {
+            classStore.markStatsReviewed(for: semester)
+            return
+        }
+
+        classStore.saveStatsSnapshot(
+            SemesterStatsSnapshot(stats: liveStats, capturedAt: Date())
+        )
     }
 
     private var header: some View {
@@ -667,6 +686,7 @@ private struct ShareHighlightRow: View {
 
 private struct SemesterStats {
     let semester: Int
+    let referenceDate: Date
     let classes: [UniversityClass]
     let tasks: [TaskItem]
     let exams: [Exam]
@@ -686,6 +706,7 @@ private struct SemesterStats {
         semesterInfo: SemesterInfo
     ) {
         self.semester = semester
+        self.referenceDate = Date()
         self.classes = classes
 
         let classIds = Set(classes.map(\.id))
@@ -706,6 +727,29 @@ private struct SemesterStats {
         self.studyDayWithMostMinutes = studyStore.studyDayWithMostMinutes(in: range)
     }
 
+    init(snapshot: SemesterStatsSnapshot) {
+        self.semester = snapshot.semester
+        self.referenceDate = snapshot.referenceDate
+        self.classes = snapshot.classes
+        self.tasks = snapshot.tasks
+        self.exams = snapshot.exams
+
+        let classesById = Dictionary(uniqueKeysWithValues: snapshot.classes.map { ($0.id, $0) })
+        self.gradeAverages = snapshot.gradeAverages.compactMap { item in
+            guard let classItem = classesById[item.classId] else { return nil }
+            return ClassAverage(classItem: classItem, average: item.average)
+        }
+
+        self.studySessions = snapshot.studySessions
+        self.totalStudyMinutes = snapshot.totalStudyMinutes
+        self.studyMinutesByClass = Dictionary(
+            uniqueKeysWithValues: snapshot.studyMinutesByClass.map { ($0.classId, $0.minutes) }
+        )
+        self.studyDayWithMostMinutes = snapshot.studyDayWithMostMinutes.map {
+            (date: $0.date, minutes: $0.minutes)
+        }
+    }
+
     var completedTasks: Int {
         tasks.filter(\.isCompleted).count
     }
@@ -715,7 +759,7 @@ private struct SemesterStats {
     }
 
     var overdueTasks: Int {
-        tasks.filter { !$0.isCompleted && $0.dueDate < Date() }.count
+        tasks.filter { !$0.isCompleted && $0.dueDate < referenceDate }.count
     }
 
     var physicalTasks: Int {
@@ -727,11 +771,11 @@ private struct SemesterStats {
     }
 
     var upcomingExams: Int {
-        exams.filter { !$0.isCompleted && $0.date > Date() }.count
+        exams.filter { !$0.isCompleted && $0.date > referenceDate }.count
     }
 
     var finishedExams: Int {
-        exams.filter(\.isFinished).count
+        exams.filter { $0.isCompleted || $0.date <= referenceDate }.count
     }
 
     var totalTopics: Int {
@@ -850,6 +894,31 @@ private struct ClassAverage {
 private struct ClassStudyCount {
     let classItem: UniversityClass
     let minutes: Int
+}
+
+extension SemesterStatsSnapshot {
+    fileprivate init(stats: SemesterStats, capturedAt: Date) {
+        self.semester = stats.semester
+        self.capturedAt = capturedAt
+        self.referenceDate = capturedAt
+        self.classes = stats.classes
+        self.tasks = stats.tasks
+        self.exams = stats.exams
+        self.gradeAverages = stats.gradeAverages.map {
+            SemesterStatsGradeAverageSnapshot(
+                classId: $0.classItem.id,
+                average: $0.average
+            )
+        }
+        self.studySessions = stats.studySessions
+        self.totalStudyMinutes = stats.totalStudyMinutes
+        self.studyMinutesByClass = stats.studyMinutesByClass.map {
+            SemesterStatsClassStudySnapshot(classId: $0.key, minutes: $0.value)
+        }
+        self.studyDayWithMostMinutes = stats.studyDayWithMostMinutes.map {
+            SemesterStatsStudyDaySnapshot(date: $0.date, minutes: $0.minutes)
+        }
+    }
 }
 
 private struct SemesterStatsLockedView: View {
